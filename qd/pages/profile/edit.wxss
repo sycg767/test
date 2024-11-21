@@ -1,0 +1,63 @@
+.container {
+  padding: 30rpx;
+  background: #f5f6fa;
+  min-height: 100vh;
+}
+
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40rpx 0;
+}
+
+.avatar {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.tip {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.form {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 0 30rpx;
+}
+
+.input-group {
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #f5f6fa;
+}
+
+.input-group:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+input, textarea {
+  width: 100%;
+  font-size: 30rpx;
+  color: #333;
+}
+
+textarea {
+  height: 160rpx;
+}
+
+.save-btn {
+  margin-top: 60rpx;
+  background: #6c5ce7;
+  color: #fff;
+  border-radius: 12rpx;
+} 

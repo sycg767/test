@@ -12,7 +12,12 @@
     "pages/rank/index",
     "pages/study-record/index",
     "pages/login/index",
-    "pages/register/index"
+    "pages/register/index",
+    "pages/settings/index",
+    "pages/profile/edit",
+    "pages/profile/password",
+    "pages/about/index",
+    "pages/profile/phone"
   ],
   "window": {
     "backgroundTextStyle": "light",

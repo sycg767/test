@@ -156,4 +156,28 @@ export const collectionAPI = {
   getCollections: (userId, page = 0, size = 10) => {
     return request(`/api/v1/collections?userId=${userId}&page=${page}&size=${size}`);
   }
+};
+
+// 用户设置相关API
+export const settingsAPI = {
+  // 获取用户设置
+  getSettings: () => {
+    return request('/api/v1/user/settings');
+  },
+  
+  // 更新用户设置
+  updateSettings: (settings) => {
+    return request('/api/v1/user/settings', {
+      method: 'PUT',
+      data: settings
+    });
+  },
+  
+  // 更新提醒设置
+  updateReminder: (reminderSettings) => {
+    return request('/api/v1/user/reminder', {
+      method: 'PUT',
+      data: reminderSettings
+    });
+  }
 }; 

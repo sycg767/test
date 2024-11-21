@@ -96,4 +96,25 @@
 /* 睁眼 */
 .icon-eye-open:before {
   content: "\e761";
+}
+
+/* 新增图标 */
+.icon-youjiantou:before {
+  content: "\e639";
+}
+
+.icon-shezhi:before {
+  content: "\e781";
+}
+
+.icon-bianji:before {
+  content: "\e8ac";
+}
+
+.icon-guanyu:before {
+  content: "\e60b";
+}
+
+.icon-mima:before {
+  content: "\e620";
 } 

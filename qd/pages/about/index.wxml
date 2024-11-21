@@ -1,0 +1,30 @@
+<!--pages/about/index.wxml-->
+<view class="container">
+  <view class="logo">
+    <image src="/assets/images/logo.png" mode="aspectFit"></image>
+  </view>
+  
+  <view class="app-info">
+    <text class="app-name">刷题助手</text>
+    <text class="version">Version {{version}}</text>
+  </view>
+  
+  <view class="content">
+    <view class="section">
+      <view class="title">关于我们</view>
+      <view class="text">刷题助手是一款专注于帮助用户提高学习效率的小程序。我们提供丰富的题库资源和智能的学习追踪功能，让学习更轻松、更高效。</view>
+    </view>
+    
+    <view class="section">
+      <view class="title">联系我们</view>
+      <view class="contact-item">
+        <text class="label">邮箱：</text>
+        <text class="value">support@example.com</text>
+      </view>
+      <view class="contact-item">
+        <text class="label">微信：</text>
+        <text class="value">question_helper</text>
+      </view>
+    </view>
+  </view>
+</view>

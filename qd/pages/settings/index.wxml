@@ -1,2 +1,101 @@
 <!--pages/settings/index.wxml-->
-<text>pages/settings/index.wxml</text>
+<view class="container">
+  <!-- 账号设置 -->
+  <view class="section">
+    <view class="section-title">账号设置</view>
+    <view class="setting-list">
+      <view class="setting-item" bindtap="goToProfile">
+        <text class="item-label">个人资料</text>
+        <view class="item-right">
+          <text class="item-value">{{userInfo.nickname || '未设置'}}</text>
+          <text class="iconfont icon-youjiantou"></text>
+        </view>
+      </view>
+      <view class="setting-item" bindtap="goToPassword">
+        <text class="item-label">修改密码</text>
+        <text class="iconfont icon-youjiantou"></text>
+      </view>
+      <view class="setting-item" bindtap="goToPhone">
+        <text class="item-label">手机号码</text>
+        <view class="item-right">
+          <text class="item-value">{{userInfo.phone || '未绑定'}}</text>
+          <text class="iconfont icon-youjiantou"></text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 练习设置 -->
+  <view class="section">
+    <view class="section-title">练习设置</view>
+    <view class="setting-list">
+      <view class="setting-item">
+        <text class="item-label">答题音效</text>
+        <switch checked="{{settings.soundEnabled}}" bindchange="toggleSound" color="#6c5ce7"/>
+      </view>
+      <view class="setting-item">
+        <text class="item-label">震动反馈</text>
+        <switch checked="{{settings.vibrationEnabled}}" bindchange="toggleVibration" color="#6c5ce7"/>
+      </view>
+      <view class="setting-item">
+        <text class="item-label">默认每组题数</text>
+        <picker 
+          bindchange="onQuestionCountChange" 
+          value="{{settings.defaultQuestionCount}}" 
+          range="{{questionCountOptions}}"
+        >
+          <view class="picker-value">
+            {{settings.defaultQuestionCount}}题
+            <text class="iconfont icon-youjiantou"></text>
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <!-- 通知设置 -->
+  <view class="section">
+    <view class="section-title">通知设置</view>
+    <view class="setting-list">
+      <view class="setting-item">
+        <text class="item-label">每日提醒</text>
+        <switch checked="{{settings.dailyReminder}}" bindchange="toggleDailyReminder" color="#6c5ce7"/>
+      </view>
+      <view class="setting-item" wx:if="{{settings.dailyReminder}}">
+        <text class="item-label">提醒时间</text>
+        <picker 
+          mode="time" 
+          value="{{settings.reminderTime}}" 
+          bindchange="onReminderTimeChange"
+        >
+          <view class="picker-value">
+            {{settings.reminderTime}}
+            <text class="iconfont icon-youjiantou"></text>
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <!-- 其他设置 -->
+  <view class="section">
+    <view class="section-title">其他</view>
+    <view class="setting-list">
+      <view class="setting-item" bindtap="clearCache">
+        <text class="item-label">清除缓存</text>
+        <view class="item-right">
+          <text class="item-value">{{cacheSize}}</text>
+          <text class="iconfont icon-youjiantou"></text>
+        </view>
+      </view>
+      <view class="setting-item" bindtap="goToAbout">
+        <text class="item-label">关于我们</text>
+        <text class="iconfont icon-youjiantou"></text>
+      </view>
+    </view>
+  </view>
+
+  <view class="version-info">
+    <text>当前版本 {{version}}</text>
+  </view>
+</view>

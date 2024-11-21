@@ -1,0 +1,45 @@
+<view class="container">
+  <view class="header">
+    <text class="title">绑定手机号</text>
+    <text class="subtitle">绑定手机号可以提高账号安全性</text>
+  </view>
+
+  <view class="form">
+    <view class="input-group">
+      <text class="label">手机号</text>
+      <view class="phone-input">
+        <input 
+          type="number"
+          placeholder="请输入手机号"
+          value="{{phone}}"
+          bindinput="onPhoneInput"
+          maxlength="11"
+        />
+        <button 
+          class="code-btn {{canSendCode ? '' : 'disabled'}}" 
+          bindtap="sendVerifyCode"
+          disabled="{{!canSendCode}}"
+        >
+          {{countdown > 0 ? countdown + 's' : '获取验证码'}}
+        </button>
+      </view>
+    </view>
+    
+    <view class="input-group">
+      <text class="label">验证码</text>
+      <view class="code-input">
+        <input 
+          type="number"
+          placeholder="请输入验证码"
+          value="{{verifyCode}}"
+          bindinput="onVerifyCodeInput"
+          maxlength="6"
+        />
+      </view>
+    </view>
+  </view>
+
+  <button class="confirm-btn" bindtap="bindPhone" loading="{{loading}}">
+    确认绑定
+  </button>
+</view> 
