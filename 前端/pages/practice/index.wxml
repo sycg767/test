@@ -1,0 +1,79 @@
+<!--pages/practice/index.wxml-->
+<view class="container">
+  <!-- 进度条 -->
+  <view class="progress-bar">
+    <view class="progress" style="width: {{(currentIndex + 1) / questions.length * 100}}%"></view>
+    <text class="progress-text">{{currentIndex + 1}}/{{questions.length}}</text>
+  </view>
+
+  <!-- 题目内容 -->
+  <swiper class="question-swiper" current="{{currentIndex}}" bindchange="onSwiperChange">
+    <swiper-item wx:for="{{questions}}" wx:key="id">
+      <scroll-view class="question-scroll" scroll-y>
+        <view class="question-container">
+          <!-- 题目头部信息 -->
+          <view class="question-header">
+            <text class="question-index">{{currentIndex + 1}}/{{questions.length}}</text>
+            <text class="question-type">{{item.type === 'SINGLE' ? '单选题' : item.type === 'MULTIPLE' ? '多选题' : '判断题'}}</text>
+          </view>
+
+          <!-- 题目内容 -->
+          <view class="question-content">
+            <text>{{item.content}}</text>
+          </view>
+
+          <!-- 选项列表 -->
+          <view class="options-list">
+            <view class="option-item {{option.selected ? 'selected' : ''}} {{showAnswer ? (option.isCorrect ? 'correct' : option.selected ? 'wrong' : '') : ''}}"
+                  wx:for="{{item.options}}" 
+                  wx:for-item="option"
+                  wx:key="key"
+                  bindtap="onOptionSelect"
+                  data-id="{{option.id}}">
+              <text class="option-key">{{option.key}}</text>
+              <text class="option-content">{{option.content}}</text>
+            </view>
+          </view>
+
+          <!-- 答案解析 -->
+          <view class="answer-analysis" wx:if="{{showAnswer}}">
+            <view class="analysis-header">答案解析</view>
+            <view class="correct-answer">
+              <text class="label">正确答案：</text>
+              <text class="content">{{item.answer}}</text>
+            </view>
+            <view class="analysis-content">{{item.analysis}}</view>
+          </view>
+
+          <!-- 添加收藏按钮 -->
+          <view class="action-buttons">
+            <view class="collect-btn" bindtap="toggleCollect">
+              <text class="iconfont {{isCollected ? 'icon-shoucang-filled' : 'icon-shoucang'}}"></text>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar">
+    <view class="operation-buttons">
+      <button class="collect-btn" bindtap="toggleCollect">
+        <text class="iconfont {{isCollected ? 'icon-shoucang-filled' : 'icon-shoucang'}}"></text>
+        <text>{{isCollected ? '已收藏' : '收藏'}}</text>
+      </button>
+      <button class="submit-btn" bindtap="submitAnswer" wx:if="{{!showAnswer}}">提交答案</button>
+      <button class="next-btn" bindtap="nextQuestion" wx:if="{{showAnswer}}">
+        {{isLastQuestion ? '完成' : '下一题'}}
+      </button>
+    </view>
+  </view>
+
+  <!-- 答题卡 -->
+  <answer-card 
+    questions="{{questions}}" 
+    currentIndex="{{currentIndex}}"
+    bind:jump="onJumpQuestion"
+  />
+</view>

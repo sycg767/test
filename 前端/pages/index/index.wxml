@@ -1,0 +1,70 @@
+<view class="container">
+  <!-- 轮播图 -->
+  <swiper class="banner" 
+          indicator-dots="{{true}}"
+          autoplay="{{true}}"
+          interval="{{3000}}"
+          duration="{{500}}"
+          circular="{{true}}"
+          indicator-active-color="#6c5ce7">
+    <swiper-item wx:for="{{banners}}" wx:key="id" bindtap="onBannerTap" data-url="{{item.linkUrl}}">
+      <image src="{{item.imageUrl}}" 
+             mode="aspectFill" 
+             class="banner-image"
+             bindtap="onBannerTap"
+             data-url="{{item.linkUrl}}"/>
+    </swiper-item>
+  </swiper>
+
+  <!-- 搜索框 -->
+  <view class="search-box">
+    <view class="search-input">
+      <text class="iconfont icon-sousuo"></text>
+      <text class="placeholder">搜索题库</text>
+    </view>
+  </view>
+
+  <!-- 快速功能入口 -->
+  <view class="quick-actions">
+    <view class="action-item" bindtap="onActionTap" data-type="wrong">
+      <view class="action-icon">
+        <text class="iconfont icon-cuotiben"></text>
+      </view>
+      <text class="action-text">错题本</text>
+    </view>
+    <view class="action-item" bindtap="onActionTap" data-type="collect">
+      <view class="action-icon">
+        <text class="iconfont icon-shoucang"></text>
+      </view>
+      <text class="action-text">收藏夹</text>
+    </view>
+    <view class="action-item" bindtap="onActionTap" data-type="rank">
+      <view class="action-icon">
+        <text class="iconfont icon-paihangbang"></text>
+      </view>
+      <text class="action-text">排行榜</text>
+    </view>
+    <view class="action-item" bindtap="onActionTap" data-type="history">
+      <view class="action-icon">
+        <text class="iconfont icon-lishi"></text>
+      </view>
+      <text class="action-text">历史记录</text>
+    </view>
+  </view>
+
+  <!-- 推荐题库 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="title">推荐题库</text>
+      <text class="more">更多</text>
+    </view>
+  </view>
+
+  <!-- 热门题库 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="title">热门题库</text>
+      <text class="more">更多</text>
+    </view>
+  </view>
+</view> 

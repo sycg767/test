@@ -1,0 +1,30 @@
+<!--pages/collection/index.wxml-->
+<view class="container">
+  <view class="collection-list">
+    <view class="collection-item" 
+      wx:for="{{collections}}" 
+      wx:key="id"
+      bindtap="goToQuestion"
+      data-question-id="{{item.question.id}}"
+    >
+      <view class="question-info">
+        <text class="question-type">{{item.question.type === 'SINGLE' ? '单选题' : item.question.type === 'MULTIPLE' ? '多选题' : '判断题'}}</text>
+        <text class="question-content">{{item.question.content}}</text>
+      </view>
+      <view class="collection-time">收藏于 {{item.createdAt}}</view>
+      <view class="cancel-btn" 
+        catchtap="cancelCollection" 
+        data-question-id="{{item.question.id}}"
+      >
+        <text class="iconfont icon-shoucang"></text>
+      </view>
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">加载中...</view>
+  <view class="no-more" wx:if="{{!hasMore && collections.length > 0}}">没有更多了</view>
+  <view class="empty" wx:if="{{!loading && collections.length === 0}}">
+    <image src="/assets/images/empty.png" mode="aspectFit"></image>
+    <text>暂无收藏题目</text>
+  </view>
+</view>

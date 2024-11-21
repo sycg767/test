@@ -1,0 +1,58 @@
+<view class="container">
+  <view class="logo">
+    <image src="../../assets/images/logo.png" mode="aspectFit"></image>
+  </view>
+  
+  <view class="welcome">
+    <text class="title">欢迎使用刷题助手</text>
+    <text class="subtitle">请选择登录方式</text>
+  </view>
+  
+  <!-- 账号密码登录表单 -->
+  <view class="form">
+    <view class="input-group {{errors.username ? 'error' : ''}}">
+      <text class="label">用户名</text>
+      <input 
+        type="text"
+        placeholder="请输入用户名"
+        value="{{username}}"
+        bindinput="onUsernameInput"
+      />
+      <text class="error-message" wx:if="{{errors.username}}">{{errors.username}}</text>
+    </view>
+    
+    <view class="input-group {{errors.password ? 'error' : ''}}">
+      <text class="label">密码</text>
+      <input 
+        type="password"
+        placeholder="请输入密码"
+        value="{{password}}"
+        bindinput="onPasswordInput"
+      />
+      <text class="error-message" wx:if="{{errors.password}}">{{errors.password}}</text>
+    </view>
+    
+    <button class="login-btn" bindtap="handleAccountLogin" loading="{{loading}}">
+      {{loading ? '登录中...' : '登录'}}
+    </button>
+    
+    <view class="divider">
+      <view class="line"></view>
+      <text>其他登录方式</text>
+      <view class="line"></view>
+    </view>
+    
+    <button 
+      class="wechat-btn"
+      bindtap="handleWechatLogin"
+      loading="{{loading}}"
+    >
+      <text class="wechat-icon">微信</text>
+      {{loading ? '登录中...' : '微信一键登录'}}
+    </button>
+    
+    <view class="register-link" bindtap="goToRegister">
+      还没有账号？立即注册
+    </view>
+  </view>
+</view> 

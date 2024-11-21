@@ -1,0 +1,42 @@
+<view class="container">
+  <!-- 成绩展示 -->
+  <view class="score-section">
+    <view class="score-title">练习完成</view>
+    <view class="score-content">
+      <view class="score-item">
+        <text class="label">正确率</text>
+        <text class="value">{{correctRate}}%</text>
+      </view>
+      <view class="score-item">
+        <text class="label">用时</text>
+        <text class="value">{{duration}}分钟</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 答题分析 -->
+  <view class="analysis-section">
+    <view class="section-title">答题分析</view>
+    <view class="analysis-grid">
+      <view class="analysis-item">
+        <text class="count">{{totalQuestions}}</text>
+        <text class="label">总题数</text>
+      </view>
+      <view class="analysis-item">
+        <text class="count correct">{{correctCount}}</text>
+        <text class="label">答对题数</text>
+      </view>
+      <view class="analysis-item">
+        <text class="count wrong">{{wrongCount}}</text>
+        <text class="label">答错题数</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <button class="btn review" bindtap="onReviewTap">查看错题</button>
+    <button class="btn restart" bindtap="onRestartTap">再练一次</button>
+    <button class="btn back" bindtap="onBackTap">返回题库</button>
+  </view>
+</view> 

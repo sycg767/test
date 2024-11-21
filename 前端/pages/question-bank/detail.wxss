@@ -1,0 +1,221 @@
+@import "../../styles/iconfont.wxss";
+
+.container {
+  padding: 30rpx;
+  background: #f5f6fa;
+  min-height: 100vh;
+}
+
+.bank-header {
+  background: linear-gradient(135deg, #6c5ce7, #a393eb);
+  border-radius: 24rpx;
+  padding: 40rpx;
+  color: #fff;
+  margin-bottom: 30rpx;
+  box-shadow: 0 8rpx 16rpx rgba(108, 92, 231, 0.2);
+}
+
+.bank-name {
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.bank-desc {
+  font-size: 28rpx;
+  opacity: 0.9;
+  line-height: 1.6;
+  margin-bottom: 24rpx;
+  display: block;
+}
+
+.bank-meta {
+  display: flex;
+  gap: 30rpx;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  opacity: 0.9;
+}
+
+.meta-item .iconfont {
+  font-size: 28rpx;
+  margin-right: 8rpx;
+}
+
+.practice-section {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+  padding-left: 24rpx;
+  border-left: 8rpx solid #6c5ce7;
+}
+
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.mode-item {
+  background: #f8f9fa;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.mode-item:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.mode-icon {
+  width: 80rpx;
+  height: 80rpx;
+  background: rgba(108, 92, 231, 0.1);
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+}
+
+.mode-icon .iconfont {
+  font-size: 40rpx;
+  color: #6c5ce7;
+}
+
+.mode-info {
+  flex: 1;
+}
+
+.mode-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4rpx;
+  display: block;
+}
+
+.mode-desc {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+}
+
+.knowledge-points {
+  background: #fff;
+  padding: 30rpx;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.section-title text {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.point-count {
+  font-size: 24rpx;
+  color: #999;
+  margin-left: 12rpx;
+  font-weight: normal;
+}
+
+.point-item {
+  margin-bottom: 24rpx;
+}
+
+.point-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.point-name {
+  font-size: 28rpx;
+}
+
+.point-progress {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.progress-bar {
+  height: 8rpx;
+  background: #f0f0f0;
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: #1989fa;
+  transition: width 0.3s;
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100rpx;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 40rpx;
+}
+
+.action-btn .iconfont {
+  font-size: 40rpx;
+  color: #999;
+  margin-bottom: 4rpx;
+}
+
+.action-btn text:last-child {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.action-btn.active .iconfont,
+.action-btn.active text:last-child {
+  color: #1989fa;
+}
+
+.start-btn {
+  flex: 1;
+  height: 80rpx;
+  background: #1989fa;
+  color: #fff;
+  border-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+} 

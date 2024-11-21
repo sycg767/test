@@ -1,0 +1,25 @@
+miniprogram/
+├── pages/
+│   ├── index/             // 主页
+│   ├── question-bank/     // 题库选择页
+│   ├── practice/         // 练习页面
+│   ├── profile/          // 个人中心
+│   ├── study-record/     // 学习记录
+│   └── feedback/         // 反馈页面
+├── components/           // 公共组件
+├── utils/               // 工具函数
+├── services/            // API服务
+├── styles/              // 公共样式
+├── assets/
+│   └── icons/
+│       ├── home.png
+│       ├── home-active.png
+│       ├── question.png
+│       ├── question-active.png
+│       ├── profile.png
+│       ├── profile-active.png
+│       ├── random.png
+│       ├── special.png
+│       ├── mock.png
+│       └── wrong.png
+└── app.json            // 小程序配置文件 

@@ -1,0 +1,67 @@
+<view class="container">
+  <!-- 顶部统计 -->
+  <view class="statistics">
+    <view class="stat-item">
+      <text class="count">{{totalCount}}</text>
+      <text class="label">错题总数</text>
+    </view>
+    <view class="stat-item">
+      <text class="count">{{reviewedCount}}</text>
+      <text class="label">已复习</text>
+    </view>
+    <view class="stat-item">
+      <text class="count">{{masteredCount}}</text>
+      <text class="label">已掌握</text>
+    </view>
+  </view>
+
+  <!-- 分类标签 -->
+  <view class="category-tabs">
+    <scroll-view scroll-x class="tabs-scroll">
+      <view 
+        class="tab-item {{currentCategory === item.id ? 'active' : ''}}" 
+        wx:for="{{categories}}" 
+        wx:key="id"
+        bindtap="onCategoryTap"
+        data-id="{{item.id}}"
+      >
+        {{item.name}}
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 错题列表 -->
+  <view class="wrong-questions-list">
+    <view class="question-item" 
+      wx:for="{{wrongQuestions}}" 
+      wx:key="id"
+      bindtap="onQuestionTap"
+      data-id="{{item.id}}"
+    >
+      <view class="question-header">
+        <text class="question-type">{{item.type === 'single' ? '单选题' : item.type === 'multiple' ? '多选题' : '判断题'}}</text>
+        <text class="review-count">已复习{{item.reviewCount}}次</text>
+      </view>
+      <view class="question-content">{{item.title}}</view>
+      <view class="question-footer">
+        <text class="time">{{item.wrongTime}}</text>
+        <text class="status {{item.status === 'mastered' ? 'mastered' : ''}}">
+          {{item.status === 'mastered' ? '已掌握' : '待复习'}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{wrongQuestions.length === 0}}">
+    <image src="/assets/images/empty.png" mode="aspectFit"></image>
+    <text>暂无错题记录</text>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar" wx:if="{{wrongQuestions.length > 0}}">
+    <button class="btn review-all" bindtap="onReviewAllTap">
+      开始复习
+    </button>
+  </view>
+</view> 

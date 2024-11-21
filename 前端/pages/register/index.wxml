@@ -1,0 +1,74 @@
+<view class="container">
+  <view class="logo">
+    <image src="../../assets/images/logo.png" mode="aspectFit"></image>
+  </view>
+  
+  <view class="welcome">
+    <text class="title">欢迎注册</text>
+    <text class="subtitle">创建一个新账号</text>
+  </view>
+  
+  <view class="form">
+    <view class="input-group {{errors.username ? 'error' : ''}}">
+      <text class="label">用户名</text>
+      <input 
+        type="text"
+        placeholder="请输入用户名"
+        value="{{username}}"
+        bindinput="onUsernameInput"
+      />
+      <text class="error-message" wx:if="{{errors.username}}">{{errors.username}}</text>
+    </view>
+    
+    <view class="input-group {{errors.nickname ? 'error' : ''}}">
+      <text class="label">昵称</text>
+      <input 
+        type="text"
+        placeholder="请输入昵称"
+        value="{{nickname}}"
+        bindinput="onNicknameInput"
+      />
+      <text class="error-message" wx:if="{{errors.nickname}}">{{errors.nickname}}</text>
+    </view>
+    
+    <view class="input-group {{errors.password ? 'error' : ''}}">
+      <text class="label">密码</text>
+      <view class="password-input">
+        <input 
+          type="{{showPassword ? 'text' : 'password'}}"
+          placeholder="请输入密码"
+          value="{{password}}"
+          bindinput="onPasswordInput"
+        />
+        <text 
+          class="iconfont {{showPassword ? 'icon-eye-open' : 'icon-eye-close'}}" 
+          bindtap="togglePasswordVisibility"
+        ></text>
+      </view>
+      <text class="error-message" wx:if="{{errors.password}}">{{errors.password}}</text>
+    </view>
+    
+    <view class="input-group {{errors.confirmPassword ? 'error' : ''}}">
+      <text class="label">确认密码</text>
+      <view class="password-input">
+        <input 
+          type="{{showConfirmPassword ? 'text' : 'password'}}"
+          placeholder="请再次输入密码"
+          value="{{confirmPassword}}"
+          bindinput="onConfirmPasswordInput"
+        />
+        <text 
+          class="iconfont {{showConfirmPassword ? 'icon-eye-open' : 'icon-eye-close'}}" 
+          bindtap="toggleConfirmPasswordVisibility"
+        ></text>
+      </view>
+      <text class="error-message" wx:if="{{errors.confirmPassword}}">{{errors.confirmPassword}}</text>
+    </view>
+    
+    <button class="register-btn" bindtap="handleRegister">注册</button>
+    
+    <view class="login-link" bindtap="goToLogin">
+      已有账号？立即登录
+    </view>
+  </view>
+</view> 

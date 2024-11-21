@@ -1,0 +1,99 @@
+@font-face {
+  font-family: 'iconfont';  /* Project id 4743365 */
+  src: url('//at.alicdn.com/t/c/font_4743365_g0tk7ausdz.woff2?t=1731677171993') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4743365_g0tk7ausdz.woff?t=1731677171993') format('woff'),
+       url('//at.alicdn.com/t/c/font_4743365_g0tk7ausdz.ttf?t=1731677171993') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 已收藏 */
+.icon-yishoucang:before {
+  content: "\e628";
+}
+
+/* 用户图标 */
+.icon-yonghu:before {
+  content: "\e677";
+}
+
+/* 首页选中 */
+.icon-shouye-xuanzhong:before {
+  content: "\e6b0";
+}
+
+/* 试卷 */
+.icon-shijuan:before {
+  content: "\e601";
+}
+
+/* 设置 */
+.icon-shezhi:before {
+  content: "\e781";
+}
+
+/* 清除图标 */
+.icon-qingchu:before {
+  content: "\e61c";
+}
+
+/* 文件夹选中 */
+.icon-wenjianjia-xuanzhong:before {
+  content: "\e621";
+}
+
+/* 搜索 */
+.icon-sousuo:before {
+  content: "\e60a";
+}
+
+/* 文件夹未选中 */
+.icon-wenjianjia-weixuanzhong:before {
+  content: "\e646";
+}
+
+/* 右箭头 */
+.icon-youjiantou:before {
+  content: "\e639";
+}
+
+/* 首页未选中 */
+.icon-shouye-weixuanzhong:before {
+  content: "\e606";
+}
+
+/* 错题本 */
+.icon-cuotiben:before {
+  content: "\e60e";
+}
+
+/* 收藏 */
+.icon-shoucang:before {
+  content: "\e600";
+}
+
+/* 排行榜 */
+.icon-paihangbang:before {
+  content: "\e658";
+}
+
+/* 历史记录 */
+.icon-lishi:before {
+  content: "\e638";
+}
+
+/* 闭眼 */
+.icon-eye-close:before {
+  content: "\e901";
+}
+
+/* 睁眼 */
+.icon-eye-open:before {
+  content: "\e761";
+} 

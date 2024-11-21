@@ -1,0 +1,143 @@
+/* pages/question-bank/index.wxss */
+@import "../../styles/iconfont.wxss";
+
+page {
+  height: 100%;
+  background: #f5f6fa;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 搜索框样式优化 */
+.search-box {
+  padding: 20rpx;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+  background: #f5f6fa;
+  padding: 16rpx 24rpx;
+  border-radius: 32rpx;
+}
+
+.search-input .iconfont {
+  font-size: 36rpx;
+  color: #999;
+  margin-right: 16rpx;
+}
+
+.search-input input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+/* 内容区域样式优化 */
+.content-wrapper {
+  margin-top: 100rpx;  /* 为搜索框留出空间 */
+  flex: 1;
+  display: flex;
+  height: calc(100vh - 100rpx);  /* 减去搜索框的高度 */
+}
+
+/* 左侧分类导航样式优化 */
+.category-nav {
+  width: 180rpx;
+  background: #fff;
+  height: 100%;
+}
+
+.category-scroll {
+  height: 100%;
+}
+
+.category-item {
+  padding: 30rpx 20rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #666;
+  position: relative;
+}
+
+.category-item.active {
+  color: #6c5ce7;
+  background: #f0f7ff;
+  font-weight: 500;
+}
+
+.category-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20rpx;
+  bottom: 20rpx;
+  width: 6rpx;
+  background: #6c5ce7;
+  border-radius: 0 4rpx 4rpx 0;
+}
+
+/* 右侧题库列表样式优化 */
+.bank-list {
+  flex: 1;
+  height: 100%;
+  background: #f5f6fa;
+}
+
+.bank-scroll {
+  height: 100%;
+  padding: 20rpx;
+}
+
+.bank-item {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.bank-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.bank-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.bank-desc {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.bank-meta {
+  display: flex;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.meta-item {
+  margin-right: 30rpx;
+}
+
+.loading, .no-more, .empty {
+  text-align: center;
+  padding: 30rpx;
+  color: #999;
+  font-size: 28rpx;
+}

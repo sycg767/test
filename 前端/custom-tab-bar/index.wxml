@@ -1,0 +1,16 @@
+<view class="tab-bar">
+  <view class="tab-bar-item" bindtap="switchTab" data-path="/pages/index/index">
+    <text class="iconfont {{selected === 0 ? 'icon-shouye-xuanzhong' : 'icon-shouye-weixuanzhong'}}"></text>
+    <text class="tab-bar-text {{selected === 0 ? 'active' : ''}}">首页</text>
+  </view>
+  
+  <view class="tab-bar-item" bindtap="switchTab" data-path="/pages/question-bank/index">
+    <text class="iconfont {{selected === 1 ? 'icon-wenjianjia-xuanzhong' : 'icon-wenjianjia-weixuanzhong'}}"></text>
+    <text class="tab-bar-text {{selected === 1 ? 'active' : ''}}">题库</text>
+  </view>
+  
+  <view class="tab-bar-item" bindtap="switchTab" data-path="/pages/profile/index">
+    <text class="iconfont icon-yonghu {{selected === 2 ? 'active' : ''}}"></text>
+    <text class="tab-bar-text {{selected === 2 ? 'active' : ''}}">我的</text>
+  </view>
+</view> 

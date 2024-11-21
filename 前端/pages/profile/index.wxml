@@ -1,0 +1,65 @@
+<!--pages/profile/index.wxml-->
+<view class="container">
+  <!-- 用户信息区域 -->
+  <view class="user-info">
+    <block wx:if="{{userInfo}}">
+      <image class="avatar" src="{{userInfo.avatarUrl || '/assets/images/default-avatar.png'}}" mode="aspectFill"></image>
+      <view class="info">
+        <text class="nickname">{{userInfo.nickname || userInfo.username}}</text>
+        <text class="id">ID: {{userInfo.id}}</text>
+      </view>
+      <view class="logout-btn" bindtap="logout">退出登录</view>
+    </block>
+    <block wx:else>
+      <view class="login-wrapper">
+        <image class="avatar" src="/assets/images/default-avatar.png" mode="aspectFill"></image>
+        <view class="login-info">
+          <view class="login-content">
+            <text class="login-text">登录开启刷题之旅</text>
+            <button class="login-btn" bindtap="goToLogin">立即登录</button>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 统计数据 -->
+  <view class="stats">
+    <view class="stat-item">
+      <text class="number">{{stats.totalQuestions}}</text>
+      <text class="label">已做题目</text>
+    </view>
+    <view class="stat-item">
+      <text class="number">{{stats.correctRate}}</text>
+      <text class="label">正确率</text>
+    </view>
+    <view class="stat-item">
+      <text class="number">{{stats.ranking}}</text>
+      <text class="label">排名</text>
+    </view>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="menu-list">
+    <view class="menu-item" bindtap="goToWrongQuestions">
+      <text class="iconfont icon-cuotiben"></text>
+      <text>错题本</text>
+      <text class="desc">查看错题记录</text>
+    </view>
+    <view class="menu-item" bindtap="goToCollection">
+      <text class="iconfont icon-shoucang"></text>
+      <text>我的收藏</text>
+      <text class="desc">收藏题目和题库</text>
+    </view>
+    <view class="menu-item" bindtap="goToHistory">
+      <text class="iconfont icon-lishi"></text>
+      <text>做题记录</text>
+      <text class="desc">查看历史记录</text>
+    </view>
+    <view class="menu-item" bindtap="goToSettings">
+      <text class="iconfont icon-shezhi"></text>
+      <text>设置</text>
+      <text class="desc">个性化设置</text>
+    </view>
+  </view>
+</view>

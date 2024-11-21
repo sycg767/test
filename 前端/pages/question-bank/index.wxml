@@ -1,0 +1,73 @@
+<!--pages/question-bank/index.wxml-->
+<view class="container">
+  <!-- 搜索框 -->
+  <view class="search-box">
+    <view class="search-input">
+      <text class="iconfont icon-sousuo"></text>
+      <input 
+        type="text" 
+        placeholder="搜索题库" 
+        value="{{keyword}}"
+        bindinput="onSearch"
+        confirm-type="search"
+      />
+      <text 
+        class="clear-icon iconfont icon-close" 
+        wx:if="{{keyword}}" 
+        bindtap="clearSearch"
+      ></text>
+    </view>
+  </view>
+
+  <!-- 内容区域 -->
+  <view class="content-wrapper">
+    <!-- 左侧分类导航 -->
+    <view class="category-nav">
+      <scroll-view scroll-y class="category-scroll">
+        <view 
+          class="category-item {{selectedCategory === null ? 'active' : ''}}"
+          bindtap="onCategorySelect"
+          data-id="{{null}}"
+        >
+          <text>全部科目</text>
+        </view>
+        <view 
+          class="category-item {{selectedCategory === item.id ? 'active' : ''}}"
+          wx:for="{{categories}}"
+          wx:key="id"
+          bindtap="onCategorySelect"
+          data-id="{{item.id}}"
+        >
+          <text>{{item.name}}</text>
+        </view>
+      </scroll-view>
+    </view>
+
+    <!-- 右侧题库列表 -->
+    <view class="bank-list">
+      <scroll-view scroll-y class="bank-scroll" bindscrolltolower="onReachBottom">
+        <view 
+          class="bank-item" 
+          wx:for="{{banks}}" 
+          wx:key="id"
+          bindtap="goToDetail"
+          data-id="{{item.id}}"
+        >
+          <view class="bank-info">
+            <text class="bank-name">{{item.name}}</text>
+            <text class="bank-desc">{{item.description}}</text>
+            <view class="bank-meta">
+              <text class="meta-item">题目数：{{item.questionCount}}</text>
+              <text class="meta-item">做题人数：{{item.userCount}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 加载状态 -->
+        <view class="loading" wx:if="{{loading}}">加载中...</view>
+        <view class="no-more" wx:if="{{!hasMore && banks.length > 0}}">没有更多了</view>
+        <view class="empty" wx:if="{{!loading && banks.length === 0}}">暂无题库</view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

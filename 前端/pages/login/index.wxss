@@ -1,0 +1,172 @@
+.container {
+  padding: 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  margin: 60rpx 0;
+}
+
+.logo image {
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.welcome {
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+
+.welcome .title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.welcome .subtitle {
+  font-size: 28rpx;
+  color: #666;
+  display: block;
+}
+
+.form {
+  width: 100%;
+}
+
+.input-group {
+  margin-bottom: 30rpx;
+}
+
+.label {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+input {
+  width: 100%;
+  height: 88rpx;
+  background: #f5f6fa;
+  border-radius: 44rpx;
+  padding: 0 40rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.login-btn {
+  width: 100%;
+  height: 88rpx;
+  background: linear-gradient(to right, #1989fa, #39b9fa);
+  color: #fff;
+  border-radius: 44rpx;
+  margin-top: 60rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6rpx 20rpx rgba(25, 137, 250, 0.2);
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 3rpx 10rpx rgba(25, 137, 250, 0.2);
+}
+
+.wechat-btn {
+  width: 100%;
+  height: 88rpx;
+  background: linear-gradient(to right, #07c160, #10d56a);
+  color: #fff;
+  border-radius: 44rpx;
+  margin-top: 30rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6rpx 20rpx rgba(7, 193, 96, 0.2);
+}
+
+.wechat-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 3rpx 10rpx rgba(7, 193, 96, 0.2);
+}
+
+.action-links {
+  margin-top: 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-link, .wechat-link {
+  color: #1989fa;
+  font-size: 28rpx;
+  padding: 20rpx;
+}
+
+.divider {
+  color: #ddd;
+  font-size: 28rpx;
+}
+
+.input-group.error {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5rpx); }
+  20%, 40%, 60%, 80% { transform: translateX(5rpx); }
+}
+
+.switch-link {
+  text-align: center;
+  font-size: 28rpx;
+  color: #1989fa;
+  margin-top: 30rpx;
+}
+
+.error-message {
+  color: #ff4d4f;
+  font-size: 24rpx;
+  margin-top: 8rpx;
+}
+
+.input-group.error input {
+  border: 1rpx solid #ff4d4f;
+  background: #fff2f0;
+}
+
+.login-methods {
+  margin-top: 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.divider-text {
+  color: #999;
+  font-size: 24rpx;
+  margin: 0 20rpx;
+}
+
+.wechat-login-btn {
+  margin-top: 30rpx;
+  background: #07c160;
+}
+
+.wechat-login-btn::after {
+  border: none;
+}
+
+.wechat-icon {
+  margin-right: 8rpx;
+  font-size: 36rpx;
+} 

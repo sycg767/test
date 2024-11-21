@@ -1,0 +1,309 @@
+/* pages/practice/index.wxss */
+@import "../../styles/iconfont.wxss";
+
+.container {
+  padding: 30rpx 20rpx;
+  padding-bottom: 180rpx;
+}
+
+/* 进度条样式 */
+.progress-bar {
+  height: 8rpx;
+  background: #f0f0f0;
+  border-radius: 4rpx;
+  margin-bottom: 40rpx;
+  position: relative;
+}
+
+.progress {
+  height: 100%;
+  background: #6c5ce7;
+  border-radius: 4rpx;
+  transition: width 0.3s;
+}
+
+.progress-text {
+  position: absolute;
+  right: 0;
+  top: 20rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 题目卡片样式 */
+.question-card {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.question-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.question-type {
+  font-size: 24rpx;
+  color: #6c5ce7;
+  background: rgba(108, 92, 231, 0.1);
+  padding: 4rpx 16rpx;
+  border-radius: 4rpx;
+  margin-right: 16rpx;
+}
+
+.question-number {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.question-content {
+  font-size: 32rpx;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 40rpx;
+}
+
+/* 选项样式 */
+.options-list {
+  margin-bottom: 30rpx;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  background: #f8f9fa;
+  border-radius: 8rpx;
+  margin-bottom: 20rpx;
+  transition: all 0.3s;
+}
+
+.option-item.selected {
+  background: rgba(108, 92, 231, 0.1);
+  border: 2rpx solid #6c5ce7;
+}
+
+.option-item.correct {
+  background: rgba(0, 200, 83, 0.1);
+  border: 2rpx solid #00c853;
+}
+
+.option-item.wrong {
+  background: rgba(255, 82, 82, 0.1);
+  border: 2rpx solid #ff5252;
+}
+
+.option-key {
+  width: 48rpx;
+  height: 48rpx;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #666;
+  margin-right: 20rpx;
+}
+
+.option-content {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+/* 答案解析样式 */
+.answer-analysis {
+  margin-top: 40rpx;
+  padding-top: 30rpx;
+  border-top: 2rpx solid #f0f0f0;
+}
+
+.analysis-header {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.correct-answer {
+  font-size: 28rpx;
+  color: #00c853;
+  margin-bottom: 16rpx;
+}
+
+.analysis-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 底部操作栏 */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx;
+  background: #fff;
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.operation-buttons {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.collect-btn {
+  flex: 1;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border-radius: 44rpx;
+  color: #666;
+}
+
+.collect-btn .iconfont {
+  margin-right: 8rpx;
+  color: #ffd43b;
+}
+
+.submit-btn, .next-btn {
+  flex: 2;
+  height: 88rpx;
+  background: #6c5ce7;
+  color: #fff;
+  border-radius: 44rpx;
+  font-weight: normal;
+}
+
+.next-btn {
+  background: #00c853;
+}
+
+.question-swiper {
+  height: calc(100vh - 120rpx); /* 减去底部操作栏的高度 */
+  background: #fff;
+}
+
+.question-scroll {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.question-container {
+  padding: 30rpx;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.question-index {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.question-type {
+  font-size: 24rpx;
+  color: #fff;
+  background: #6c5ce7;
+  padding: 6rpx 16rpx;
+  border-radius: 6rpx;
+}
+
+.question-content {
+  font-size: 32rpx;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 40rpx;
+}
+
+.options-list {
+  margin-bottom: 40rpx;
+}
+
+.option-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 24rpx;
+  background: #f8f9fa;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  transition: all 0.3s ease;
+}
+
+.option-item.selected {
+  background: rgba(108, 92, 231, 0.1);
+  border: 2rpx solid #6c5ce7;
+}
+
+.option-item.correct {
+  background: rgba(7, 193, 96, 0.1);
+  border: 2rpx solid #07c160;
+}
+
+.option-item.wrong {
+  background: rgba(238, 10, 36, 0.1);
+  border: 2rpx solid #ee0a24;
+}
+
+.option-key {
+  width: 48rpx;
+  height: 48rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #666;
+  margin-right: 20rpx;
+}
+
+.option-content {
+  flex: 1;
+  font-size: 28rpx;
+  line-height: 1.5;
+  padding-top: 6rpx;
+}
+
+/* 保持原有的底部操作栏样式 */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx;
+  background: #fff;
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20rpx;
+}
+
+.collect-btn {
+  padding: 20rpx;
+}
+
+.collect-btn .iconfont {
+  font-size: 40rpx;
+  color: #6c5ce7;
+}
+
+.icon-shoucang-filled {
+  color: #ffd700 !important;
+}
+
+/* ... 其他样式保持不变 ... */

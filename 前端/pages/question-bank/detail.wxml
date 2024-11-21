@@ -1,0 +1,65 @@
+<view class="container">
+  <!-- 题库基本信息卡片 -->
+  <view class="bank-header">
+    <view class="bank-info">
+      <text class="bank-name">408综合真题</text>
+      <text class="bank-desc">计算机考研408综合历年真题，包含数据结构、计算机组成原理、操作系统、计算机网络等核心考点</text>
+      <view class="bank-meta">
+        <view class="meta-item">
+          <text class="iconfont icon-topic"></text>
+          <text>题目数：500</text>
+        </view>
+        <view class="meta-item">
+          <text class="iconfont icon-user"></text>
+          <text>做题人数：1200</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 练习模式选择 -->
+  <view class="practice-section">
+    <view class="section-title">练习模式</view>
+    <view class="mode-grid">
+      <view class="mode-item" bindtap="onModeSelect" data-type="sequence">
+        <view class="mode-icon">
+          <text class="iconfont icon-sequence"></text>
+        </view>
+        <view class="mode-info">
+          <text class="mode-name">顺序练习</text>
+          <text class="mode-desc">按顺序刷题</text>
+        </view>
+      </view>
+
+      <view class="mode-item" bindtap="onModeSelect" data-type="random">
+        <view class="mode-icon">
+          <text class="iconfont icon-random"></text>
+        </view>
+        <view class="mode-info">
+          <text class="mode-name">随机练习</text>
+          <text class="mode-desc">随机抽题练习</text>
+        </view>
+      </view>
+
+      <view class="mode-item" bindtap="onModeSelect" data-type="chapter">
+        <view class="mode-icon">
+          <text class="iconfont icon-chapter"></text>
+        </view>
+        <view class="mode-info">
+          <text class="mode-name">章节练习</text>
+          <text class="mode-desc">按章节分类练习</text>
+        </view>
+      </view>
+
+      <view class="mode-item" bindtap="onModeSelect" data-type="mock">
+        <view class="mode-icon">
+          <text class="iconfont icon-mock"></text>
+        </view>
+        <view class="mode-info">
+          <text class="mode-name">模拟测试</text>
+          <text class="mode-desc">模拟真实考试</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view> 

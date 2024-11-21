@@ -1,0 +1,147 @@
+.answer-card-container {
+  position: fixed;
+  right: 30rpx;
+  bottom: 120rpx;
+  z-index: 100;
+}
+
+.card-btn {
+  background: #6c5ce7;
+  color: #fff;
+  padding: 20rpx 30rpx;
+  border-radius: 30rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4rpx 16rpx rgba(108, 92, 231, 0.3);
+}
+
+.card-btn .iconfont {
+  font-size: 32rpx;
+  margin-right: 10rpx;
+}
+
+.card-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.card-popup.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 30rpx 30rpx 0 0;
+  padding: 30rpx;
+  transform: translateY(100%);
+  transition: transform 0.3s;
+}
+
+.card-popup.show .card-content {
+  transform: translateY(0);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.card-header .title {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.card-header .close {
+  font-size: 40rpx;
+  color: #999;
+  padding: 10rpx;
+}
+
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.question-item {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.question-item.current {
+  background: #6c5ce7;
+  color: #fff;
+}
+
+.question-item.answered {
+  background: #ddd;
+}
+
+.question-item.correct {
+  background: #00b894;
+  color: #fff;
+}
+
+.question-item.wrong {
+  background: #ff7675;
+  color: #fff;
+}
+
+.legend {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #eee;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+}
+
+.legend-item .dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  margin-right: 10rpx;
+}
+
+.legend-item text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.dot.current { background: #6c5ce7; }
+.dot.answered { background: #ddd; }
+.dot.correct { background: #00b894; }
+.dot.wrong { background: #ff7675; } 
