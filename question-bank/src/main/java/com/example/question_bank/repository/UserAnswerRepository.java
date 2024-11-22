@@ -36,4 +36,8 @@ public interface UserAnswerRepository extends JpaRepository<UserAnswer, Long> {
     
     @Query("SELECT COUNT(ua) FROM UserAnswer ua WHERE ua.user.id = :userId AND ua.bankId = :bankId AND ua.isCorrect = true AND ua.createdAt >= :startTime")
     Long countTodayCorrectAnswers(@Param("userId") Long userId, @Param("bankId") Long bankId, @Param("startTime") LocalDateTime startTime);
+    
+    Long countByUserId(Long userId);
+    
+    Long countByUserIdAndCreatedAtAfter(Long userId, LocalDateTime dateTime);
 } 

@@ -134,6 +134,11 @@ export const userApi = {
       method: 'POST',
       data: { code }
     });
+  },
+  
+  // 获取用户统计数据
+  getUserStats: (userId) => {
+    return request(`/api/v1/users/${userId}/stats`);
   }
 };
 

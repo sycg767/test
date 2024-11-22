@@ -2,6 +2,7 @@ package com.example.question_bank.controller;
 
 import com.example.question_bank.entity.User;
 import com.example.question_bank.service.UserService;
+import com.example.question_bank.service.UserAnswerService;
 import com.example.question_bank.dto.LoginRequest;
 import com.example.question_bank.dto.UserDTO;
 import com.example.question_bank.dto.ErrorResponse;
@@ -9,16 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 import java.util.HashMap;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private UserAnswerService userAnswerService;
     
     @PostMapping("/account/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
@@ -53,6 +59,17 @@ public class UserController {
             response.put("success", false);
             response.put("message", e.getMessage());
             return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @GetMapping("/{userId}/stats")
+    public ResponseEntity<Map<String, Object>> getUserStats(@PathVariable Long userId) {
+        try {
+            Map<String, Object> stats = userAnswerService.getUserStats(userId);
+            return ResponseEntity.ok(stats);
+        } catch (Exception e) {
+            log.error("获取用户统计失败", e);
+            return ResponseEntity.badRequest().build();
         }
     }
 } 

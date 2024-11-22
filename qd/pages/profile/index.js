@@ -11,7 +11,7 @@ Page({
     stats: {
       totalQuestions: 0,
       correctRate: '0%',
-      ranking: '--'
+      todayCount: 0
     }
   },
 
@@ -88,7 +88,7 @@ Page({
         stats: {
           totalQuestions: userInfo.totalQuestions || 100,
           correctRate: userInfo.correctRate || '85%',
-          ranking: userInfo.ranking || 128
+          todayCount: userInfo.todayCount || 0
         }
       });
     } else {
@@ -119,7 +119,7 @@ Page({
             stats: {
               totalQuestions: 0,
               correctRate: '0%',
-              ranking: '--'
+              todayCount: 0
             }
           });
         }
@@ -169,5 +169,17 @@ Page({
     wx.navigateTo({
       url: '/pages/settings/index'
     });
+  },
+
+  async loadUserStats() {
+    try {
+      const userId = getApp().globalData.userInfo?.id;
+      if (!userId) return;
+
+      const stats = await userApi.getUserStats(userId);
+      this.setData({ stats });
+    } catch (error) {
+      console.error('加载用户统计数据失败:', error);
+    }
   }
 })

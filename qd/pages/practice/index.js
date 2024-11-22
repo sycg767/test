@@ -14,7 +14,8 @@ Page({
     mode: '',
     bankId: null,
     startTime: null,
-    showAnswerCard: false
+    showAnswerCard: false,
+    answeredQuestions: {}
   },
 
   onLoad(options) {
@@ -77,28 +78,20 @@ Page({
 
   // 选择选项
   onOptionSelect(e) {
-    console.log('选项点击事件:', e);
-    
-    if (this.data.showAnswer) return;
-    
     const { id } = e.currentTarget.dataset;
-    console.log('选中的选项ID:', id);
+    const { currentIndex, questions, showAnswer } = this.data;
     
-    const { currentIndex, questions } = this.data;
+    // 如果已经显示答案或题目已答过，则不允许选择
+    if (showAnswer || questions[currentIndex].answered) return;
+    
     const currentQuestion = {...questions[currentIndex]};
-    console.log('当前题目:', currentQuestion);
-    
     const isSingle = currentQuestion.type === 'SINGLE';
     
-    // 更新选项状态
     const updatedOptions = currentQuestion.options.map(opt => ({
       ...opt,
       selected: opt.id === id ? !opt.selected : isSingle ? false : opt.selected
     }));
 
-    console.log('更新后的选项:', updatedOptions);
-
-    // 更新整个questions数组
     const updatedQuestions = [...questions];
     updatedQuestions[currentIndex] = {
       ...currentQuestion,
@@ -108,8 +101,6 @@ Page({
     this.setData({
       questions: updatedQuestions,
       currentQuestion: updatedQuestions[currentIndex]
-    }, () => {
-      console.log('数更新后的状态:', this.data);
     });
   },
 
@@ -130,6 +121,19 @@ Page({
       const userAnswer = selectedOptions.map(opt => opt.key).join(',');
       const isCorrect = userAnswer === currentQuestion.answer;
 
+      // 保存答题状态
+      const answeredQuestions = { ...this.data.answeredQuestions };
+      answeredQuestions[currentQuestion.id] = {
+        answer: userAnswer,
+        isCorrect: isCorrect
+      };
+
+      // 更新题目状态
+      const questions = [...this.data.questions];
+      questions[this.data.currentIndex].answered = true;
+      questions[this.data.currentIndex].userAnswer = userAnswer;
+      questions[this.data.currentIndex].isCorrect = isCorrect;
+
       await questionAPI.submitAnswer({
         questionId: currentQuestion.id,
         answer: userAnswer,
@@ -137,7 +141,24 @@ Page({
         mode
       });
 
-      this.setData({ showAnswer: true });
+      this.setData({ 
+        answeredQuestions,
+        questions
+      });
+
+      // 根据答题结果决定下一步操作
+      if (isCorrect) {
+        // 答对自动进入下一题
+        if (this.data.isLastQuestion) {
+          this.finishPractice();
+        } else {
+          this.nextQuestion();
+        }
+      } else {
+        // 答错显示解析
+        this.setData({ showAnswer: true });
+      }
+
     } catch (error) {
       console.error('提交答案失败:', error);
       wx.showToast({
@@ -217,14 +238,17 @@ Page({
   // 监听滑动切换
   onSwiperChange(e) {
     const current = e.detail.current;
+    const { questions, answeredQuestions } = this.data;
+    const currentQuestion = questions[current];
+    
     this.setData({
       currentIndex: current,
-      currentQuestion: this.data.questions[current],
-      showAnswer: false, // 切换题目时重置答案显示状态
-      isLastQuestion: current === this.data.questions.length - 1
+      currentQuestion: currentQuestion,
+      // 如果题目已答过，显示答案
+      showAnswer: currentQuestion.answered || false,
+      isLastQuestion: current === questions.length - 1
     });
     
-    // 检查当前题目的收藏状态
     this.checkCollectionStatus();
   },
 

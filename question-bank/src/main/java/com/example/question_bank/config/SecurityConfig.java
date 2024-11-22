@@ -16,26 +16,19 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configure(http))
+            .csrf().disable()
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/api/v1/users/account/login",
                     "/api/v1/users/register",
-                    "/api/v1/users/wechat/login",
-                    "/api/bank-categories/**",
-                    "/api/banks/**",
-                    "/api/v1/practice/**",
-                    "/api/v1/questions/**",
-                    "/api/v1/collections/**",
-                    "/api/v1/user-answers/**",
-                    "/error"
+                    "/api/v1/users/account/login",
+                    "/api/v1/users/*/stats",
+                    "/api/v1/user/settings"
                 ).permitAll()
                 .anyRequest().authenticated()
-            );
-        
+            )
+            .cors();
         return http.build();
     }
 

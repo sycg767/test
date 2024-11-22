@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -98,5 +99,31 @@ public class UserAnswerService {
     public boolean submitAnswer(AnswerSubmitDTO dto) {
         // 实现答案提交逻辑
         return true;
+    }
+    
+    public Map<String, Object> getUserStats(Long userId) {
+        Map<String, Object> stats = new HashMap<>();
+        
+        // 获取总答题数
+        Long totalQuestions = userAnswerRepository.countByUserId(userId);
+        
+        // 获取正确答题数
+        Long correctCount = userAnswerRepository.countCorrectAnswers(userId);
+        
+        // 计算正确率
+        double correctRate = totalQuestions > 0 
+            ? (double) correctCount / totalQuestions * 100 
+            : 0;
+        
+        // 获取今日答题数
+        LocalDateTime todayStart = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
+        Long todayCount = userAnswerRepository.countByUserIdAndCreatedAtAfter(userId, todayStart);
+        
+        stats.put("totalQuestions", totalQuestions);
+        stats.put("correctCount", correctCount);
+        stats.put("correctRate", String.format("%.1f", correctRate) + "%");
+        stats.put("todayCount", todayCount);
+        
+        return stats;
     }
 } 
