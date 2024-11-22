@@ -44,13 +44,6 @@
             </view>
             <view class="analysis-content">{{item.analysis}}</view>
           </view>
-
-          <!-- 添加收藏按钮 -->
-          <view class="action-buttons">
-            <view class="collect-btn" bindtap="toggleCollect">
-              <text class="iconfont {{isCollected ? 'icon-shoucang-filled' : 'icon-shoucang'}}"></text>
-            </view>
-          </view>
         </view>
       </scroll-view>
     </swiper-item>
@@ -59,10 +52,14 @@
   <!-- 底部操作栏 -->
   <view class="bottom-bar">
     <view class="operation-buttons">
-      <button class="collect-btn" bindtap="toggleCollect">
+      <view class="action-btn" bindtap="toggleCollect">
         <text class="iconfont {{isCollected ? 'icon-shoucang-filled' : 'icon-shoucang'}}"></text>
-        <text>{{isCollected ? '已收藏' : '收藏'}}</text>
-      </button>
+        收藏
+      </view>
+      <view class="action-btn" bindtap="showAnswerCard">
+        <text class="iconfont icon-card"></text>
+        答题卡
+      </view>
       <button class="submit-btn" bindtap="submitAnswer" wx:if="{{!showAnswer}}">提交答案</button>
       <button class="next-btn" bindtap="nextQuestion" wx:if="{{showAnswer}}">
         {{isLastQuestion ? '完成' : '下一题'}}
@@ -70,10 +67,12 @@
     </view>
   </view>
 
-  <!-- 答题卡 -->
+  <!-- 答题卡组件 -->
   <answer-card 
+    wx:if="{{showAnswerCard}}"
     questions="{{questions}}" 
     currentIndex="{{currentIndex}}"
     bind:jump="onJumpQuestion"
+    bind:close="showAnswerCard"
   />
 </view>

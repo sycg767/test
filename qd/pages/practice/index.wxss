@@ -157,33 +157,44 @@
   gap: 20rpx;
 }
 
-.collect-btn {
-  flex: 1;
-  height: 88rpx;
+.action-btn {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: #f8f9fa;
-  border-radius: 44rpx;
   color: #666;
+  font-size: 28rpx;
+  padding: 20rpx;
 }
 
-.collect-btn .iconfont {
+.action-btn .iconfont {
+  font-size: 40rpx;
   margin-right: 8rpx;
-  color: #ffd43b;
+}
+
+.icon-shoucang, .icon-shoucang-filled {
+  color: #ffd700;
+}
+
+.icon-card {
+  color: #6c5ce7;
 }
 
 .submit-btn, .next-btn {
-  flex: 2;
-  height: 88rpx;
+  flex: 1;
+  padding: 20rpx 40rpx;
+  border-radius: 44rpx;
+  font-size: 28rpx;
+  text-align: center;
+  margin-left: auto;
+}
+
+.submit-btn {
   background: #6c5ce7;
   color: #fff;
-  border-radius: 44rpx;
-  font-weight: normal;
 }
 
 .next-btn {
   background: #00c853;
+  color: #fff;
 }
 
 .question-swiper {
@@ -304,6 +315,17 @@
 
 .icon-shoucang-filled {
   color: #ffd700 !important;
+}
+
+/* 答题卡样式 */
+.answer-card {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 /* ... 其他样式保持不变 ... */

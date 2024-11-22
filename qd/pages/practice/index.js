@@ -13,7 +13,8 @@ Page({
     isCollected: false,
     mode: '',
     bankId: null,
-    startTime: null
+    startTime: null,
+    showAnswerCard: false
   },
 
   onLoad(options) {
@@ -232,9 +233,14 @@ Page({
     const { index } = e.detail;
     this.setData({
       currentIndex: index,
-      currentQuestion: this.data.questions[index],
-      showAnswer: this.data.questions[index].answered,
-      isLastQuestion: index === this.data.questions.length - 1
+      showAnswerCard: false
+    });
+  },
+
+  // 显示/隐藏答题卡
+  showAnswerCard() {
+    this.setData({
+      showAnswerCard: !this.data.showAnswerCard
     });
   }
 })

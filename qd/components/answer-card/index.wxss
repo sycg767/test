@@ -1,83 +1,18 @@
-.answer-card-container {
+.answer-card {
   position: fixed;
-  right: 30rpx;
   bottom: 120rpx;
-  z-index: 100;
-}
-
-.card-btn {
-  background: #6c5ce7;
-  color: #fff;
-  padding: 20rpx 30rpx;
-  border-radius: 30rpx;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 4rpx 16rpx rgba(108, 92, 231, 0.3);
-}
-
-.card-btn .iconfont {
-  font-size: 32rpx;
-  margin-right: 10rpx;
-}
-
-.card-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1000;
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.3s;
-}
-
-.card-popup.show {
-  visibility: visible;
-  opacity: 1;
-}
-
-.mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.card-content {
-  position: absolute;
-  bottom: 0;
   left: 0;
   right: 0;
   background: #fff;
-  border-radius: 30rpx 30rpx 0 0;
   padding: 30rpx;
-  transform: translateY(100%);
-  transition: transform 0.3s;
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.05);
 }
 
-.card-popup.show .card-content {
-  transform: translateY(0);
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30rpx;
-}
-
-.card-header .title {
-  font-size: 32rpx;
-  font-weight: bold;
-}
-
-.card-header .close {
-  font-size: 40rpx;
-  color: #999;
-  padding: 10rpx;
+.title {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 20rpx;
+  display: block;
 }
 
 .question-grid {
@@ -93,27 +28,23 @@
   align-items: center;
   justify-content: center;
   background: #f5f6fa;
-  border-radius: 12rpx;
+  border-radius: 8rpx;
   font-size: 28rpx;
-  color: #333;
+  color: #666;
 }
 
-.question-item.current {
+.question-item.active {
   background: #6c5ce7;
   color: #fff;
 }
 
-.question-item.answered {
-  background: #ddd;
-}
-
 .question-item.correct {
-  background: #00b894;
+  background: #00c853;
   color: #fff;
 }
 
 .question-item.wrong {
-  background: #ff7675;
+  background: #ff5252;
   color: #fff;
 }
 
@@ -127,21 +58,26 @@
 .legend-item {
   display: flex;
   align-items: center;
-}
-
-.legend-item .dot {
-  width: 20rpx;
-  height: 20rpx;
-  border-radius: 50%;
-  margin-right: 10rpx;
-}
-
-.legend-item text {
   font-size: 24rpx;
   color: #666;
 }
 
-.dot.current { background: #6c5ce7; }
-.dot.answered { background: #ddd; }
-.dot.correct { background: #00b894; }
-.dot.wrong { background: #ff7675; } 
+.dot {
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+  margin-right: 8rpx;
+  background: #f5f6fa;
+}
+
+.dot.active {
+  background: #6c5ce7;
+}
+
+.dot.correct {
+  background: #00c853;
+}
+
+.dot.wrong {
+  background: #ff5252;
+} 

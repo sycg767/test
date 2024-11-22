@@ -1,49 +1,32 @@
-<view class="answer-card-container">
-  <!-- 答题卡按钮 -->
-  <view class="card-btn" bindtap="toggleCard">
-    <text class="iconfont icon-card"></text>
-    <text>答题卡</text>
+<view class="answer-card">
+  <text class="title">答题卡</text>
+  <view class="question-grid">
+    <view 
+      class="question-item {{index === currentIndex ? 'active' : ''}} {{item.answered ? (item.isCorrect ? 'correct' : 'wrong') : ''}}"
+      wx:for="{{questions}}"
+      wx:key="id"
+      bindtap="onQuestionTap"
+      data-index="{{index}}"
+    >
+      {{index + 1}}
+    </view>
   </view>
-
-  <!-- 答题卡弹窗 -->
-  <view class="card-popup {{showCard ? 'show' : ''}}">
-    <view class="mask" bindtap="closeCard"></view>
-    <view class="card-content">
-      <view class="card-header">
-        <text class="title">答题卡</text>
-        <text class="close" bindtap="closeCard">×</text>
-      </view>
-      <view class="card-body">
-        <view class="question-grid">
-          <view 
-            class="question-item {{index === currentIndex ? 'current' : ''}} {{item.answered ? (item.isCorrect ? 'correct' : 'wrong') : ''}}"
-            wx:for="{{questions}}"
-            wx:key="index"
-            bindtap="jumpToQuestion"
-            data-index="{{index}}"
-          >
-            {{index + 1}}
-          </view>
-        </view>
-        <view class="legend">
-          <view class="legend-item">
-            <view class="dot current"></view>
-            <text>当前题目</text>
-          </view>
-          <view class="legend-item">
-            <view class="dot answered"></view>
-            <text>已答题</text>
-          </view>
-          <view class="legend-item">
-            <view class="dot correct"></view>
-            <text>答对</text>
-          </view>
-          <view class="legend-item">
-            <view class="dot wrong"></view>
-            <text>答错</text>
-          </view>
-        </view>
-      </view>
+  <view class="legend">
+    <view class="legend-item">
+      <view class="dot active"></view>
+      <text>当前题目</text>
+    </view>
+    <view class="legend-item">
+      <view class="dot correct"></view>
+      <text>答对</text>
+    </view>
+    <view class="legend-item">
+      <view class="dot wrong"></view>
+      <text>答错</text>
+    </view>
+    <view class="legend-item">
+      <view class="dot"></view>
+      <text>未答</text>
     </view>
   </view>
 </view> 
