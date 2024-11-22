@@ -118,7 +118,7 @@ INSERT INTO `question_banks` VALUES (5, '二级C语言', '计算机等级考试�
 INSERT INTO `question_banks` VALUES (6, '二级Python', '计算机等级考试二级Python题库，包含基础语法、函数、面向对象等内容', 2, NULL, 350, 1800, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
 INSERT INTO `question_banks` VALUES (7, '三级数据库', '计算机等级考试三级数据库技术题库，包含SQL、数据库设计等内容', 2, NULL, 300, 1200, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
 INSERT INTO `question_banks` VALUES (8, '四级网络工程', '计算机等级考试四级网络工程师题库，包含网络规划、网络管理等内容', 2, NULL, 280, 800, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (9, '大学英语四级', '大学英语四级考试题库，���听力、阅读、写作和翻译等内容', 3, NULL, 600, 5000, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
+INSERT INTO `question_banks` VALUES (9, '大学英语四级', '大学英语四级考试题库��听力、阅读、写作和翻译等内容', 3, NULL, 600, 5000, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
 INSERT INTO `question_banks` VALUES (10, '大学英语六级', '大学英语六级考试题库，包含听力、阅读、写作和翻译等内容', 3, NULL, 500, 3000, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
 INSERT INTO `question_banks` VALUES (11, '专业英语四级', '英语专业四级考试题库，包含听力、阅读、写作和翻译等专业内容', 3, NULL, 400, 1000, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
 INSERT INTO `question_banks` VALUES (12, '专业英语八级', '英语专业八级考试题库，包含听力、阅读、写作和翻译等高级内容', 3, NULL, 350, 800, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
@@ -345,6 +345,7 @@ CREATE TABLE `users`  (
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `updated_at` datetime(6) NULL DEFAULT NULL,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `UK_r43af9ap4edm43mmtq01oddj6`(`username` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
@@ -352,7 +353,7 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (28, NULL, '2024-11-18 13:43:04.505061', NULL, '1', NULL, '$2a$10$6I6l.asntVr0RTrKSVrwP.Z7iS7A8GdVxygNIqa8fuHjdmKEMorHi', '2024-11-18 13:43:04.505061', '1');
+INSERT INTO `users` VALUES (28, NULL, '2024-11-18 13:43:04.505061', NULL, '1', NULL, '$2a$10$6I6l.asntVr0RTrKSVrwP.Z7iS7A8GdVxygNIqa8fuHjdmKEMorHi', '2024-11-18 13:43:04.505061', '1', NULL);
 
 -- 用户设置表
 CREATE TABLE user_settings (

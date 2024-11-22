@@ -1,10 +1,10 @@
-package com.example.questionbank.service;
+package com.example.question_bank.service;
 
-import com.example.questionbank.entity.User;
-import com.example.questionbank.entity.VerifyCode;
-import com.example.questionbank.repository.UserRepository;
-import com.example.questionbank.repository.VerifyCodeRepository;
-import com.example.questionbank.exception.BusinessException;
+import com.example.question_bank.entity.User;
+import com.example.question_bank.entity.VerifyCode;
+import com.example.question_bank.repository.UserRepository;
+import com.example.question_bank.repository.VerifyCodeRepository;
+import com.example.question_bank.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

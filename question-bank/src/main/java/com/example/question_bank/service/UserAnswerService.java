@@ -1,5 +1,6 @@
 package com.example.question_bank.service;
 
+import com.example.question_bank.dto.AnswerSubmitDTO;
 import com.example.question_bank.entity.Question;
 import com.example.question_bank.entity.User;
 import com.example.question_bank.entity.UserAnswer;
@@ -92,5 +93,10 @@ public class UserAnswerService {
     public Page<UserAnswer> getReviewQuestions(Long userId, Pageable pageable) {
         LocalDateTime threshold = LocalDateTime.now().minusDays(7);
         return userAnswerRepository.findByUserIdAndLastReviewAtBefore(userId, threshold, pageable);
+    }
+    
+    public boolean submitAnswer(AnswerSubmitDTO dto) {
+        // 实现答案提交逻辑
+        return true;
     }
 } 

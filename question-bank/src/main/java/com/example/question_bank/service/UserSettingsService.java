@@ -1,9 +1,9 @@
-package com.example.questionbank.service;
+package com.example.question_bank.service;
 
-import com.example.questionbank.entity.UserSettings;
-import com.example.questionbank.entity.ReminderSettings;
-import com.example.questionbank.repository.UserSettingsRepository;
-import com.example.questionbank.exception.SettingsException;
+import com.example.question_bank.entity.UserSettings;
+import com.example.question_bank.entity.ReminderSettings;
+import com.example.question_bank.repository.UserSettingsRepository;
+import com.example.question_bank.exception.SettingsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

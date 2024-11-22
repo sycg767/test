@@ -1,4 +1,4 @@
-package com.example.questionbank.exception;
+package com.example.question_bank.exception;
 
 public class BusinessException extends RuntimeException {
     public BusinessException(String message) {

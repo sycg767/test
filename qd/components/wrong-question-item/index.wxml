@@ -1,0 +1,16 @@
+<view class="wrong-question-item" bindtap="onTap">
+  <view class="header">
+    <text class="type">{{question.type === 'single' ? '单选题' : question.type === 'multiple' ? '多选题' : '判断题'}}</text>
+    <text class="time">{{question.wrongTime}}</text>
+  </view>
+  
+  <view class="content">{{question.title}}</view>
+  
+  <view class="footer">
+    <view class="stats">
+      <text class="review-count">已复习{{question.reviewCount}}次</text>
+      <text class="wrong-count">错误{{question.wrongCount}}次</text>
+    </view>
+    <text class="status {{question.status}}">{{statusMap[question.status]}}</text>
+  </view>
+</view> 

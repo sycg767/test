@@ -1,6 +1,6 @@
-package com.example.questionbank.repository;
+package com.example.question_bank.repository;
 
-import com.example.questionbank.entity.VerifyCode;
+import com.example.question_bank.entity.VerifyCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

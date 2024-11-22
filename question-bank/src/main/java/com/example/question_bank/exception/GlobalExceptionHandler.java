@@ -1,23 +1,41 @@
 package com.example.question_bank.exception;
 
+import com.example.question_bank.exception.BusinessException;
+import com.example.question_bank.exception.SettingsException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
+        ErrorResponse error = new ErrorResponse(e.getMessage());
+        return ResponseEntity.badRequest().body(error);
+    }
+
+    @ExceptionHandler(SettingsException.class)
+    public ResponseEntity<ErrorResponse> handleSettingsException(SettingsException e) {
+        ErrorResponse error = new ErrorResponse(e.getMessage());
+        return ResponseEntity.badRequest().body(error);
+    }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleException(Exception e) {
-        logger.error("Error occurred: ", e);
-        Map<String, String> response = new HashMap<>();
-        response.put("error", e.getMessage());
-        return ResponseEntity.badRequest().body(response);
+    public ResponseEntity<ErrorResponse> handleException(Exception e) {
+        ErrorResponse error = new ErrorResponse("服务器内部错误");
+        return ResponseEntity.internalServerError().body(error);
+    }
+
+    private static class ErrorResponse {
+        private final String message;
+
+        public ErrorResponse(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
     }
 } 

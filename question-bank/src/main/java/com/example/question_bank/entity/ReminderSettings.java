@@ -1,4 +1,4 @@
-package com.example.questionbank.entity;
+package com.example.question_bank.entity;
 
 import lombok.Data;
 

@@ -35,4 +35,19 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query("SELECT q FROM Question q JOIN UserCollection uc ON q.id = uc.question.id " +
            "WHERE uc.user.id = :userId")
     Page<Question> findCollectedQuestions(@Param("userId") Long userId, Pageable pageable);
+    
+    @Query(value = "SELECT * FROM questions WHERE bank_id = :bankId ORDER BY id LIMIT :count", nativeQuery = true)
+    List<Question> findByBankIdOrderById(@Param("bankId") Long bankId, @Param("count") Integer count);
+    
+    @Query(value = "SELECT * FROM questions WHERE bank_id = :bankId ORDER BY RAND() LIMIT :count", nativeQuery = true)
+    List<Question> findRandomQuestionsByBankId(@Param("bankId") Long bankId, @Param("count") Integer count);
+    
+    @Query(value = """
+        SELECT q.* FROM questions q 
+        JOIN user_answers ua ON q.id = ua.question_id 
+        WHERE q.bank_id = :bankId AND ua.is_correct = false 
+        GROUP BY q.id 
+        LIMIT :count
+        """, nativeQuery = true)
+    List<Question> findWrongQuestionsByBankId(@Param("bankId") Long bankId, @Param("count") Integer count);
 } 

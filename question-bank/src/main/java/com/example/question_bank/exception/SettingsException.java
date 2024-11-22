@@ -1,4 +1,4 @@
-package com.example.questionbank.exception;
+package com.example.question_bank.exception;
 
 public class SettingsException extends RuntimeException {
     public SettingsException(String message) {

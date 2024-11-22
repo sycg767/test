@@ -1,8 +1,8 @@
-package com.example.questionbank.controller;
+package com.example.question_bank.controller;
 
-import com.example.questionbank.entity.UserSettings;
-import com.example.questionbank.entity.ReminderSettings;
-import com.example.questionbank.service.UserSettingsService;
+import com.example.question_bank.entity.UserSettings;
+import com.example.question_bank.entity.ReminderSettings;
+import com.example.question_bank.service.UserSettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
