@@ -48,8 +48,13 @@ public class UserAnswerService {
         return userAnswerRepository.save(userAnswer);
     }
     
-    public Page<UserAnswer> getWrongQuestions(Long userId, Pageable pageable) {
-        return userAnswerRepository.findByUserIdAndIsCorrect(userId, false, pageable);
+    public Page<Question> getWrongQuestions(Long userId, Pageable pageable) {
+        try {
+            return userAnswerRepository.findWrongQuestions(userId, pageable);
+        } catch (Exception e) {
+            log.error("获取错题失败", e);
+            throw new RuntimeException("获取错题失败", e);
+        }
     }
     
     public Map<String, Long> getStatistics(Long userId) {
@@ -96,9 +101,32 @@ public class UserAnswerService {
         return userAnswerRepository.findByUserIdAndLastReviewAtBefore(userId, threshold, pageable);
     }
     
-    public boolean submitAnswer(AnswerSubmitDTO dto) {
-        // 实现答案提交逻辑
-        return true;
+    @Transactional
+    public UserAnswer submitAnswer(AnswerSubmitDTO dto) {
+        try {
+            UserAnswer userAnswer = new UserAnswer();
+            User user = new User();
+            user.setId(dto.getUserId());
+            Question question = new Question();
+            question.setId(dto.getQuestionId());
+            
+            userAnswer.setUser(user);
+            userAnswer.setQuestion(question);
+            userAnswer.setAnswer(dto.getAnswer());
+            userAnswer.setIsCorrect(dto.getIsCorrect());
+            userAnswer.setMode(dto.getMode());
+            userAnswer.setBankId(dto.getBankId());
+            userAnswer.setCreatedAt(LocalDateTime.now());
+            userAnswer.setPracticeTime(dto.getPracticeTime());
+            userAnswer.setReviewCount(dto.getReviewCount());
+            
+            progressService.updateProgress(dto.getUserId(), dto.getBankId(), dto.getIsCorrect(), dto.getQuestionId());
+            
+            return userAnswerRepository.save(userAnswer);
+        } catch (Exception e) {
+            log.error("提交答案失败", e);
+            throw new RuntimeException("提交答案失败", e);
+        }
     }
     
     public Map<String, Object> getUserStats(Long userId) {
@@ -123,6 +151,26 @@ public class UserAnswerService {
         stats.put("correctCount", correctCount);
         stats.put("correctRate", String.format("%.1f", correctRate) + "%");
         stats.put("todayCount", todayCount);
+        
+        return stats;
+    }
+    
+    public Map<String, Object> getWrongStatistics(Long userId) {
+        Map<String, Object> stats = new HashMap<>();
+        
+        // 获取错题总数
+        Long totalWrong = userAnswerRepository.countWrongAnswers(userId);
+        
+        // 获取已复习错题数
+        Long reviewedCount = userAnswerRepository.countReviewedWrongQuestions(userId);
+        
+        // 获取已掌握错题数（连续答对3次以上）
+        Long masteredCount = userAnswerRepository.countMasteredWrongQuestions(userId);
+        
+        stats.put("totalCount", totalWrong);
+        stats.put("reviewedCount", reviewedCount);
+        stats.put("masteredCount", masteredCount);
+        stats.put("needReviewCount", totalWrong - masteredCount);
         
         return stats;
     }

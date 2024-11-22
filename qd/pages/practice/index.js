@@ -39,11 +39,33 @@ Page({
   async loadQuestions() {
     try {
       wx.showLoading({ title: '加载中...' });
-      const questions = await questionAPI.getPracticeQuestions({
-        bankId: this.data.bankId,
-        mode: this.data.mode,
-        count: 10
-      });
+      let questions;
+      
+      if (this.data.mode === 'wrong') {
+        // 错题练习模式
+        const questionIds = this.options.questionIds?.split(',');
+        if (!questionIds || questionIds.length === 0) {
+          wx.showToast({
+            title: '暂无错题',
+            icon: 'none'
+          });
+          setTimeout(() => wx.navigateBack(), 1500);
+          return;
+        }
+        questions = await questionAPI.getQuestionsByIds(questionIds);
+      } else if (this.data.mode === 'review') {
+        // 查看单个错题
+        const questionId = this.options.questionId;
+        const question = await questionAPI.getQuestion(questionId);
+        questions = [question];
+      } else {
+        // 普通练习模式
+        questions = await questionAPI.getPracticeQuestions({
+          bankId: this.data.bankId,
+          mode: this.data.mode,
+          count: 10
+        });
+      }
 
       console.log('获取到的题目数据:', questions);
 
@@ -106,7 +128,7 @@ Page({
 
   // 提交答案
   async submitAnswer() {
-    const { currentQuestion, mode } = this.data;
+    const { currentQuestion, mode, bankId } = this.data;
     const selectedOptions = currentQuestion.options.filter(opt => opt.selected);
 
     if (selectedOptions.length === 0) {
@@ -120,26 +142,31 @@ Page({
     try {
       const userAnswer = selectedOptions.map(opt => opt.key).join(',');
       const isCorrect = userAnswer === currentQuestion.answer;
+      const userId = getApp().globalData.userInfo.id;
 
-      // 保存答题状态
+      // 提交答案到后端
+      await questionAPI.submitAnswer({
+        userId: userId,
+        questionId: currentQuestion.id,
+        bankId: bankId,
+        answer: userAnswer,
+        isCorrect: isCorrect,
+        mode: mode,
+        practiceTime: Math.floor((new Date() - this.data.startTime) / 1000),
+        reviewCount: 0
+      });
+
+      // 更新本地状态
       const answeredQuestions = { ...this.data.answeredQuestions };
       answeredQuestions[currentQuestion.id] = {
         answer: userAnswer,
         isCorrect: isCorrect
       };
 
-      // 更新题目状态
       const questions = [...this.data.questions];
       questions[this.data.currentIndex].answered = true;
       questions[this.data.currentIndex].userAnswer = userAnswer;
       questions[this.data.currentIndex].isCorrect = isCorrect;
-
-      await questionAPI.submitAnswer({
-        questionId: currentQuestion.id,
-        answer: userAnswer,
-        isCorrect,
-        mode
-      });
 
       this.setData({ 
         answeredQuestions,
@@ -148,14 +175,12 @@ Page({
 
       // 根据答题结果决定下一步操作
       if (isCorrect) {
-        // 答对自动进入下一题
         if (this.data.isLastQuestion) {
           this.finishPractice();
         } else {
           this.nextQuestion();
         }
       } else {
-        // 答错显示解析
         this.setData({ showAnswer: true });
       }
 

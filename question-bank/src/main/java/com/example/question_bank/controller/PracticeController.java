@@ -2,6 +2,7 @@ package com.example.question_bank.controller;
 
 import com.example.question_bank.dto.AnswerSubmitDTO;
 import com.example.question_bank.entity.Question;
+import com.example.question_bank.entity.UserAnswer;
 import com.example.question_bank.service.UserAnswerService;
 import com.example.question_bank.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,11 @@ public class PracticeController {
 
     @PostMapping("/submit")
     public ResponseEntity<?> submitAnswer(@RequestBody AnswerSubmitDTO dto) {
-        boolean result = userAnswerService.submitAnswer(dto);
-        if (result) {
-            return ResponseEntity.ok().build();
+        try {
+            UserAnswer userAnswer = userAnswerService.submitAnswer(dto);
+            return ResponseEntity.ok(userAnswer);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.badRequest().build();
     }
 } 

@@ -1,6 +1,7 @@
 package com.example.question_bank.service;
 
 import com.example.question_bank.entity.PracticeProgress;
+import com.example.question_bank.entity.User;
 import com.example.question_bank.repository.PracticeProgressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,14 +13,14 @@ public class PracticeProgressService {
     @Autowired
     private PracticeProgressRepository progressRepository;
 
-    // 获取或创建练习进度
-    @Transactional
     public PracticeProgress getOrCreateProgress(Long userId, Long bankId) {
         return progressRepository.findByUserIdAndBankId(userId, bankId)
             .orElseGet(() -> {
                 PracticeProgress progress = new PracticeProgress();
-                progress.getUser().setId(userId);
-                progress.getBank().setId(bankId);
+                User user = new User();
+                user.setId(userId);
+                progress.setUser(user);
+                progress.setBankId(bankId);
                 progress.setTotalQuestions(0);
                 progress.setFinishedQuestions(0);
                 progress.setCorrectCount(0);
@@ -27,16 +28,15 @@ public class PracticeProgressService {
             });
     }
 
-    // 更新练习进度
     @Transactional
-    public PracticeProgress updateProgress(Long userId, Long bankId, boolean isCorrect, Long questionId) {
+    public void updateProgress(Long userId, Long bankId, Boolean isCorrect, Long questionId) {
         PracticeProgress progress = getOrCreateProgress(userId, bankId);
         progress.setFinishedQuestions(progress.getFinishedQuestions() + 1);
         if (isCorrect) {
             progress.setCorrectCount(progress.getCorrectCount() + 1);
         }
         progress.setLastQuestionId(questionId);
-        return progressRepository.save(progress);
+        progressRepository.save(progress);
     }
 
     // 获取练习统计
@@ -44,8 +44,10 @@ public class PracticeProgressService {
         return progressRepository.findByUserIdAndBankId(userId, bankId)
             .orElseGet(() -> {
                 PracticeProgress progress = new PracticeProgress();
-                progress.getUser().setId(userId);
-                progress.getBank().setId(bankId);
+                User user = new User();
+                user.setId(userId);
+                progress.setUser(user);
+                progress.setBankId(bankId);
                 return progress;
             });
     }

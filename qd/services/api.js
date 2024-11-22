@@ -79,8 +79,11 @@ export const questionAPI = {
   },
   
   // 获取错题列表
-  getWrongQuestions: () => {
-    return request('/questions/wrong');
+  getWrongQuestions: (userId, params) => {
+    const queryString = Object.entries(params)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+    return request(`/api/v1/wrong-questions?userId=${userId}&${queryString}`);
   },
   
   // 获取收藏题目列表
@@ -91,6 +94,21 @@ export const questionAPI = {
   // 获取题目详情
   getQuestion: (id) => {
     return request(`/questions/${id}`);
+  },
+  
+  // 获取错题统计
+  getWrongStatistics: (userId) => {
+    return request(`/api/v1/wrong-questions/statistics?userId=${userId}`);
+  },
+  
+  // 根据ID列表获取题目
+  getQuestionsByIds: (questionIds) => {
+    return request(`/api/v1/questions/batch?ids=${questionIds}`);
+  },
+  
+  // 获取单个题目
+  getQuestion: (id) => {
+    return request(`/api/v1/questions/${id}`);
   }
 };
 
@@ -102,11 +120,6 @@ export const userAnswerAPI = {
       method: 'GET',
       data: { userId }
     });
-  },
-  
-  // 获取错题本统计
-  getWrongStatistics: () => {
-    return request('/user-answers/wrong/statistics');
   }
 };
 

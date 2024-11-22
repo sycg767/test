@@ -1,5 +1,6 @@
 package com.example.question_bank.repository;
 
+import com.example.question_bank.entity.Question;
 import com.example.question_bank.entity.UserAnswer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,4 +41,29 @@ public interface UserAnswerRepository extends JpaRepository<UserAnswer, Long> {
     Long countByUserId(Long userId);
     
     Long countByUserIdAndCreatedAtAfter(Long userId, LocalDateTime dateTime);
+    
+    @Query("SELECT COUNT(ua) FROM UserAnswer ua WHERE ua.user.id = :userId AND ua.reviewCount > 0")
+    Long countReviewedWrongQuestions(@Param("userId") Long userId);
+    
+    @Query("""
+        SELECT COUNT(ua) FROM UserAnswer ua 
+        WHERE ua.user.id = :userId 
+        AND ua.isCorrect = false 
+        AND EXISTS (
+            SELECT 1 FROM UserAnswer ua2 
+            WHERE ua2.question.id = ua.question.id 
+            AND ua2.user.id = ua.user.id 
+            AND ua2.isCorrect = true 
+            GROUP BY ua2.question.id 
+            HAVING COUNT(ua2) >= 3
+        )
+    """)
+    Long countMasteredWrongQuestions(@Param("userId") Long userId);
+
+    @Query("""
+        SELECT DISTINCT q FROM Question q 
+        JOIN UserAnswer ua ON q.id = ua.question.id 
+        WHERE ua.user.id = :userId AND ua.isCorrect = false
+    """)
+    Page<Question> findWrongQuestions(@Param("userId") Long userId, Pageable pageable);
 } 

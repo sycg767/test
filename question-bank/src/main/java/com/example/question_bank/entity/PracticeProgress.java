@@ -16,9 +16,8 @@ public class PracticeProgress {
     @JoinColumn(name = "user_id")
     private User user;
     
-    @ManyToOne
-    @JoinColumn(name = "bank_id")
-    private QuestionBank bank;
+    @Column(name = "bank_id")
+    private Long bankId;
     
     private Integer totalQuestions;
     

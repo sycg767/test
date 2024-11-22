@@ -2,67 +2,43 @@ Page({
   data: {
     totalQuestions: 0,
     correctCount: 0,
-    wrongCount: 0,
-    correctRate: 0,
     duration: 0,
-    bankId: '',
     mode: '',
-    wrongQuestions: []
+    correctRate: '0%'
   },
 
   onLoad(options) {
-    const { 
-      totalQuestions, 
-      correctCount, 
-      duration, 
-      bankId, 
-      mode,
-      wrongQuestions 
-    } = options
-
-    // 计算统计数据
-    const wrongCount = totalQuestions - correctCount
-    const correctRate = Math.round((correctCount / totalQuestions) * 100)
-
+    const { totalQuestions, correctCount, duration, mode } = options;
+    const correctRate = ((correctCount / totalQuestions) * 100).toFixed(1) + '%';
+    
     this.setData({
       totalQuestions: parseInt(totalQuestions),
       correctCount: parseInt(correctCount),
-      wrongCount,
-      correctRate,
-      duration: parseFloat(duration).toFixed(1),
-      bankId,
+      duration,
       mode,
-      wrongQuestions: JSON.parse(wrongQuestions || '[]')
-    })
+      correctRate
+    });
   },
 
   // 查看错题
-  onReviewTap() {
-    const { wrongQuestions } = this.data
-    if (wrongQuestions.length === 0) {
-      wx.showToast({
-        title: '没有错题哦',
-        icon: 'none'
-      })
-      return
-    }
-    wx.navigateTo({
-      url: '/pages/practice/review?questions=' + JSON.stringify(wrongQuestions)
-    })
+  viewWrongQuestions() {
+    wx.redirectTo({
+      url: '/pages/wrong-questions/index'
+    });
   },
 
   // 再练一次
-  onRestartTap() {
-    const { bankId, mode } = this.data
+  practiceAgain() {
+    const { mode, bankId } = this.data;
     wx.redirectTo({
-      url: `/pages/practice/index?bankId=${bankId}&mode=${mode}`
-    })
+      url: `/pages/practice/index?mode=${mode}&bankId=${bankId}`
+    });
   },
 
   // 返回题库
-  onBackTap() {
+  returnToBank() {
     wx.navigateBack({
-      delta: 2  // 返回题库页面
-    })
+      delta: 2  // 返回两层，回到题库页面
+    });
   }
-}) 
+}); 

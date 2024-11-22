@@ -5,26 +5,34 @@ import com.example.question_bank.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/questions")
+@RequestMapping("/api/v1/questions")
 public class QuestionController {
     @Autowired
     private QuestionService questionService;
     
-    @GetMapping
-    public Page<Question> getQuestions(
-        @RequestParam Long bankId,
-        @RequestParam(required = false) String mode,
-        @RequestParam(required = false) Long pointId,
-        Pageable pageable
-    ) {
-        return questionService.getQuestions(bankId, mode, pointId, pageable);
+    @GetMapping("/batch")
+    public ResponseEntity<List<Question>> getQuestionsByIds(@RequestParam List<Long> ids) {
+        try {
+            List<Question> questions = questionService.getQuestionsByIds(ids);
+            return ResponseEntity.ok(questions);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
     
     @GetMapping("/{id}")
-    public Question getQuestion(@PathVariable Long id) {
-        return questionService.getQuestion(id);
+    public ResponseEntity<Question> getQuestion(@PathVariable Long id) {
+        try {
+            Question question = questionService.getQuestion(id);
+            return ResponseEntity.ok(question);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 } 

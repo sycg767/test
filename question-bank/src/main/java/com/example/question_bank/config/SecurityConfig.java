@@ -24,7 +24,9 @@ public class SecurityConfig {
                     "/api/v1/users/register",
                     "/api/v1/users/account/login",
                     "/api/v1/users/*/stats",
-                    "/api/v1/user/settings"
+                    "/api/v1/user/settings",
+                    "/api/v1/wrong-questions/**",
+                    "/api/v1/practice/**"
                 ).permitAll()
                 .anyRequest().authenticated()
             )

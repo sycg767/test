@@ -1,2 +1,50 @@
 <!--pages/wrong-questions/index.wxml-->
-<text>pages/wrong-questions/index.wxml</text>
+<view class="container">
+  <!-- 统计信息 -->
+  <view class="statistics">
+    <view class="stat-item">
+      <text class="number">{{statistics.totalCount}}</text>
+      <text class="label">错题总数</text>
+    </view>
+    <view class="stat-item">
+      <text class="number">{{statistics.reviewedCount}}</text>
+      <text class="label">已复习</text>
+    </view>
+    <view class="stat-item">
+      <text class="number">{{statistics.masteredCount}}</text>
+      <text class="label">已掌握</text>
+    </view>
+  </view>
+
+  <!-- 开始练习按钮 -->
+  <view class="action-bar">
+    <button class="practice-btn" bindtap="startPractice">
+      开始练习
+    </button>
+  </view>
+
+  <!-- 错题列表 -->
+  <view class="question-list">
+    <view class="question-item" 
+          wx:for="{{questions}}" 
+          wx:key="id"
+          bindtap="goToDetail"
+          data-id="{{item.id}}">
+      <view class="question-type">{{item.type === 'SINGLE' ? '单选题' : item.type === 'MULTIPLE' ? '多选题' : '判断题'}}</view>
+      <view class="question-content">{{item.content}}</view>
+      <view class="question-footer">
+        <text class="review-count">已复习{{item.reviewCount || 0}}次</text>
+        <text class="status {{item.mastered ? 'mastered' : ''}}">
+          {{item.mastered ? '已掌握' : '待复习'}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="loading" wx:if="{{loading}}">加载中...</view>
+  <view class="no-more" wx:if="{{!hasMore && questions.length > 0}}">没有更多了</view>
+  <view class="empty" wx:if="{{!loading && questions.length === 0}}">
+    <text>暂无错题记录</text>
+  </view>
+</view>
