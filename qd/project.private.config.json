@@ -10,8 +10,8 @@
       "list": [
         {
           "name": "",
-          "pathName": "pages/login/index",
-          "query": "",
+          "pathName": "pages/practice/index",
+          "query": "mode=sequence&bankId=2",
           "launchMode": "default",
           "scene": null
         }

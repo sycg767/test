@@ -15,7 +15,10 @@ Page({
     bankId: null,
     startTime: null,
     showAnswerCard: false,
-    answeredQuestions: {}
+    answeredQuestions: {},
+    timer: null,
+    seconds: 0,
+    timeStr: '00:00'
   },
 
   onLoad(options) {
@@ -33,6 +36,7 @@ Page({
     });
     this.loadQuestions();
     this.checkCollectionStatus();
+    this.startTimer();
   },
 
   // 加载题目
@@ -213,13 +217,13 @@ Page({
 
   // 完成练习
   finishPractice() {
-    const duration = Math.floor((new Date() - this.data.startTime) / 1000 / 60);
+    const seconds = this.data.seconds;
     const correctCount = this.data.questions.filter(q => 
       q.options.filter(opt => opt.selected).map(opt => opt.key).join(',') === q.answer
     ).length;
 
     wx.redirectTo({
-      url: `/pages/practice/result?totalQuestions=${this.data.questions.length}&correctCount=${correctCount}&duration=${duration}&mode=${this.data.mode}`
+      url: `/pages/practice/result?totalQuestions=${this.data.questions.length}&correctCount=${correctCount}&seconds=${seconds}&mode=${this.data.mode}&bankId=${this.data.bankId}`
     });
   },
 
@@ -291,5 +295,27 @@ Page({
     this.setData({
       showAnswerCard: !this.data.showAnswerCard
     });
+  },
+
+  // 添加计时器相关方法
+  startTimer() {
+    this.data.timer = setInterval(() => {
+      const seconds = this.data.seconds + 1;
+      const minutes = Math.floor(seconds / 60);
+      const remainSeconds = seconds % 60;
+      const timeStr = `${minutes.toString().padStart(2, '0')}:${remainSeconds.toString().padStart(2, '0')}`;
+      
+      this.setData({
+        seconds,
+        timeStr
+      });
+    }, 1000);
+  },
+
+  onUnload() {
+    // 页面卸载时清除计时器
+    if (this.data.timer) {
+      clearInterval(this.data.timer);
+    }
   }
 })

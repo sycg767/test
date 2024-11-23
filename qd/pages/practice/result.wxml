@@ -1,40 +1,39 @@
 <view class="container">
-  <view class="result-card">
-    <view class="title">练习完成</view>
-    
-    <view class="stats">
-      <view class="stat-item">
-        <text class="label">正确率</text>
-        <text class="value">{{correctRate}}</text>
-      </view>
-      <view class="stat-item">
-        <text class="label">用时</text>
-        <text class="value">{{duration}}分钟</text>
-      </view>
+  <view class="header">练习完成</view>
+  
+  <!-- 主要数据展示区 -->
+  <view class="main-stats">
+    <view class="stat-row">
+      <text class="stat-label">正确率</text>
+      <text class="stat-value purple">{{correctRate}}</text>
     </view>
-
-    <view class="analysis">
-      <view class="analysis-item">
-        <text class="label">总题数</text>
-        <text class="value">{{totalQuestions}}</text>
-      </view>
-      <view class="analysis-item">
-        <text class="label">答对题数</text>
-        <text class="value correct">{{correctCount}}</text>
-      </view>
-      <view class="analysis-item">
-        <text class="label">答错题数</text>
-        <text class="value wrong">{{totalQuestions - correctCount}}</text>
-      </view>
+    <view class="stat-divider"></view>
+    <view class="stat-row">
+      <text class="stat-label">用时</text>
+      <text class="stat-value time">{{timeStr}}</text>
     </view>
   </view>
 
-  <view class="action-buttons">
-    <button class="btn wrong-btn" bindtap="viewWrongQuestions" 
-            wx:if="{{totalQuestions - correctCount > 0}}">
-      查看错题
-    </button>
-    <button class="btn again-btn" bindtap="practiceAgain">再练一次</button>
-    <button class="btn return-btn" bindtap="returnToBank">返回题库</button>
+  <!-- 详细数据卡片 -->
+  <view class="detail-card">
+    <view class="detail-row">
+      <text class="detail-label">总题数</text>
+      <text class="detail-value">{{totalQuestions}}</text>
+    </view>
+    <view class="detail-row">
+      <text class="detail-label">答对题数</text>
+      <text class="detail-value correct">{{correctCount}}</text>
+    </view>
+    <view class="detail-row">
+      <text class="detail-label">答错题数</text>
+      <text class="detail-value wrong">{{totalQuestions - correctCount}}</text>
+    </view>
+  </view>
+
+  <!-- 操作按钮组 - 添加事件绑定 -->
+  <view class="button-group">
+    <button class="action-btn review" hover-class="btn-hover" bindtap="viewWrongQuestions">查看错题</button>
+    <button class="action-btn retry" hover-class="btn-hover" bindtap="practiceAgain">再练一次</button>
+    <button class="action-btn return" hover-class="btn-hover" bindtap="returnToBank">返回题库</button>
   </view>
 </view> 

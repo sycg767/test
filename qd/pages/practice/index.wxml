@@ -13,7 +13,7 @@
         <view class="question-container">
           <!-- 题目头部信息 -->
           <view class="question-header">
-            <text class="question-index">{{currentIndex + 1}}/{{questions.length}}</text>
+            <text class="question-index">{{timeStr}}</text>
             <text class="question-type">{{item.type === 'SINGLE' ? '单选题' : item.type === 'MULTIPLE' ? '多选题' : '判断题'}}</text>
           </view>
 

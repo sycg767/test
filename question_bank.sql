@@ -11,7 +11,7 @@
  Target Server Version : 80031
  File Encoding         : 65001
 
- Date: 19/11/2024 19:50:15
+ Date: 23/11/2024 09:41:09
 */
 
 SET NAMES utf8mb4;
@@ -36,6 +36,23 @@ INSERT INTO `bank_categories` VALUES (1, '计算机考研', '2024-11-14 22:41:13
 INSERT INTO `bank_categories` VALUES (2, '计算机等级考试', '2024-11-14 22:41:13', '2024-11-14 22:41:13');
 INSERT INTO `bank_categories` VALUES (3, '英语等级考试', '2024-11-14 22:41:13', '2024-11-14 22:41:13');
 INSERT INTO `bank_categories` VALUES (4, '软考认证', '2024-11-14 22:41:13', '2024-11-14 22:41:13');
+
+-- ----------------------------
+-- Table structure for categories
+-- ----------------------------
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE `categories`  (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `parent_id` bigint NULL DEFAULT NULL,
+  `sort_order` int NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of categories
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for knowledge_points
@@ -81,11 +98,15 @@ CREATE TABLE `practice_progress`  (
   INDEX `idx_bank_id`(`bank_id` ASC) USING BTREE,
   CONSTRAINT `fk_progress_bank` FOREIGN KEY (`bank_id`) REFERENCES `question_banks` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_progress_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '练习进度表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '练习进度表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of practice_progress
 -- ----------------------------
+INSERT INTO `practice_progress` VALUES (1, 28, 1, 0, 24, 4, 9, '2024-11-22 13:35:07', '2024-11-22 13:45:10');
+INSERT INTO `practice_progress` VALUES (2, 28, 2, 0, 5, 0, 2, '2024-11-22 13:35:59', '2024-11-22 13:42:20');
+INSERT INTO `practice_progress` VALUES (3, 29, 1, 0, 29, 5, 8, '2024-11-22 13:47:01', '2024-11-22 13:58:38');
+INSERT INTO `practice_progress` VALUES (4, 29, 2, 0, 2, 0, 2, '2024-11-22 13:51:35', '2024-11-22 13:54:16');
 
 -- ----------------------------
 -- Table structure for question_banks
@@ -102,6 +123,7 @@ CREATE TABLE `question_banks`  (
   `status` int NULL DEFAULT NULL,
   `created_at` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `practice_count` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `category_id`(`category_id` ASC) USING BTREE,
   CONSTRAINT `question_banks_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `bank_categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -110,22 +132,22 @@ CREATE TABLE `question_banks`  (
 -- ----------------------------
 -- Records of question_banks
 -- ----------------------------
-INSERT INTO `question_banks` VALUES (1, '408综合真题', '计算机考研408综合历年真题，包含数据结构、计算机组成原理、操作系统、计算机网络等核心考点', 1, NULL, 10, 1200, 1, '2024-11-14 22:41:13', '2024-11-15 19:39:56');
-INSERT INTO `question_banks` VALUES (2, '数据结构专项', '计算机考研数据结构专项练习，包括线性表、树、图、排序等重点知识点', 1, NULL, 300, 800, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (3, '操作系统专项', '计算机考研操作系统专项练习，覆盖进程管理、内存管理、文件系统等核心知识点', 1, NULL, 250, 600, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (4, '计算机网络专项', '计算机考研计算机网络专项练习，包含TCP/IP协议、网络安全等重要内容', 1, NULL, 280, 750, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (5, '二级C语言', '计算机等级考试二级C语言题库，包含基础语法、指针、结构体等内容', 2, NULL, 400, 2000, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (6, '二级Python', '计算机等级考试二级Python题库，包含基础语法、函数、面向对象等内容', 2, NULL, 350, 1800, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (7, '三级数据库', '计算机等级考试三级数据库技术题库，包含SQL、数据库设计等内容', 2, NULL, 300, 1200, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (8, '四级网络工程', '计算机等级考试四级网络工程师题库，包含网络规划、网络管理等内容', 2, NULL, 280, 800, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (9, '大学英语四级', '大学英语四级考试题库��听力、阅读、写作和翻译等内容', 3, NULL, 600, 5000, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (10, '大学英语六级', '大学英语六级考试题库，包含听力、阅读、写作和翻译等内容', 3, NULL, 500, 3000, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (11, '专业英语四级', '英语专业四级考试题库，包含听力、阅读、写作和翻译等专业内容', 3, NULL, 400, 1000, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (12, '专业英语八级', '英语专业八级考试题库，包含听力、阅读、写作和翻译等高级内容', 3, NULL, 350, 800, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (13, '软件设计师', '中级软件设计师考试题库，包含计算机基础、软件工程等内容', 4, NULL, 450, 2500, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (14, '系统架构设计师', '高级系统架构设计师考试题库，包含架构设计、设计模式等内容', 4, NULL, 400, 1500, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (15, '网络工程师', '中级网络工程师考试题库，包含网络技术、网络规划与设计等内容', 4, NULL, 380, 1800, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
-INSERT INTO `question_banks` VALUES (16, '信息安全工程师', '中级信息安全工程师考试题库，包含安全技术、安全管理等内容', 4, NULL, 360, 1600, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13');
+INSERT INTO `question_banks` VALUES (1, '408综合真题', '计算机考研408综合历年真题，包含数据结构、计算机组成原理、操作系统、计算机网络等核心考点', 1, NULL, 10, 1200, 1, '2024-11-14 22:41:13', '2024-11-15 19:39:56', NULL);
+INSERT INTO `question_banks` VALUES (2, '数据结构专项', '计算机考研数据结构专项练习，包括线性表、树、图、排序等重点知识点', 1, NULL, 300, 800, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (3, '操作系统专项', '计算机考研操作系统专项练习，覆盖进程管理、内存管理、文件系统等核心知识点', 1, NULL, 250, 600, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (4, '计算机网络专项', '计算机考研计算机网络专项练习，包含TCP/IP协议、网络安全等重要内容', 1, NULL, 280, 750, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (5, '二级C语言', '计算机等级考试二级C语言题库，包含基础语法、指针、结构体等内容', 2, NULL, 400, 2000, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (6, '二级Python', '计算机等级考试二级Python题库，包含基础语法、函数、面向对象等内容', 2, NULL, 350, 1800, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (7, '三级数据库', '计算机等级考试三级数据库技术题库，包含SQL、数据库设计等内容', 2, NULL, 300, 1200, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (8, '四级网络工程', '计算机等级考试四级网络工程师题库，包含网络规划、网络管理等内容', 2, NULL, 280, 800, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (9, '大学英语四级', '大学英语四级考试题库，包含听力、阅读、写作和翻译等内容', 3, NULL, 600, 5000, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (10, '大学英语六级', '大学英语六级考试题库，包含听力、阅读、写作和翻译等内容', 3, NULL, 500, 3000, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (11, '专业英语四级', '英语专业四级考试题库，包含听力、阅读、写作和翻译等专业内容', 3, NULL, 400, 1000, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (12, '专业英语八级', '英语专业八级考试题库，包含听力、阅读、写作和翻译等高级内容', 3, NULL, 350, 800, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (13, '软件设计师', '中级软件设计师考试题库，包含计算机基础、软件工程等内容', 4, NULL, 450, 2500, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (14, '系统架构设计师', '高级系统架构设计师考试题库，包含架构设计、设计模式等内容', 4, NULL, 400, 1500, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (15, '网络工程师', '中级网络工程师考试题库，包含网络技术、网络规划与设计等内容', 4, NULL, 380, 1800, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
+INSERT INTO `question_banks` VALUES (16, '信息安全工程师', '中级信息安全工程师考试题库，包含安全技术、安全管理等内容', 4, NULL, 360, 1600, 1, '2024-11-14 22:41:13', '2024-11-14 22:41:13', NULL);
 
 -- ----------------------------
 -- Table structure for question_collections
@@ -248,33 +270,35 @@ CREATE TABLE `questions`  (
   `updated_at` datetime(6) NULL DEFAULT NULL,
   `category_id` bigint NULL DEFAULT NULL,
   `chapter` int NULL DEFAULT NULL,
+  `sort_order` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_bank_id`(`bank_id` ASC) USING BTREE,
   INDEX `idx_type`(`type` ASC) USING BTREE,
-  INDEX `FK54pk8ubikyxblrwho5ub41l5m`(`category_id` ASC) USING BTREE,
+  INDEX `FKctl6tuf74n8cufkb3ulj6b3fc`(`category_id` ASC) USING BTREE,
   CONSTRAINT `FK54pk8ubikyxblrwho5ub41l5m` FOREIGN KEY (`category_id`) REFERENCES `bank_categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FKctl6tuf74n8cufkb3ulj6b3fc` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`bank_id`) REFERENCES `question_banks` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of questions
 -- ----------------------------
-INSERT INTO `questions` VALUES (1, '在一棵完全二叉树中，具有2个子女的结点数为15，则该二叉树的叶子结点数为()', 'SINGLE', 'B', '完全二叉树性质：若有n2个度为2的结点，则叶子结点数n0 = n2 + 1，所以叶子结点数为16', 1, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (2, '对于包含n个节点的二叉搜索树，查找、插入和删除操作的平均时间复杂度是()', 'SINGLE', 'C', '二叉搜索树的查找、插入和删除操作的平均时间复杂度都是O(logn)，最坏情况下为O(n)', 2, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (3, '下列关于进程和线程的说法中，错误的是()', 'SINGLE', 'D', '线程是CPU调度的基本单位，而进程是资源分配的基本单位。线程之间共享进程的资源。', 3, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (4, 'TCP协议使用滑动窗口机制实现流量控制，以下说法正确的是()', 'MULTIPLE', 'A,B,D', 'TCP的滑动窗口机制可以实现流量控制，防止发送方发送速率过快导致接收方无法处理。', 4, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (5, '以下关于指针的说法中，错误的是()', 'SINGLE', 'C', '指针是一种数据类型，用于存储内存地址。void指针可以指向任何类型的数据，但需要类型转换后才能解引用。', 5, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (6, '在C语言中，数组作为函数参数传递时，实际上传递的是数组的首地址。', 'JUDGE', 'TRUE', '在C语言中，数组作为参数传递时会退化为指针，传递的是数组的首地址，而不是整个数组的副本。', 5, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (7, '关于C语言中的const关键字，以下说法正确的有()', 'MULTIPLE', 'A,B,D', 'const可以修饰变量、指针和函数参数，用于表示其值不能被修改。const修饰的变量必须在声明时初始化。', 5, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (8, '在一个长度为n的顺序表中，删除所有值为x的元素的时间复杂度是', 'SINGLE', 'A', '需要遍历一遍数组，时间复杂度为O(n)', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 1, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (9, '对于包含n个结点的二叉树，其中序遍历的非递归算法中，栈的最大容量可能是', 'SINGLE', 'B', '最坏情况是一个只有左子树的二叉树，需要将所有节点入栈，空间复杂度为O(n)', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 1, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (10, '在散列表中，处理冲突的方法不包括', 'SINGLE', 'D', '树形平衡不是散列表处理冲突的方法，常见的方法有开放定址法和链地址法', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 1, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (11, '以下关于流水线的描述，错误的是', 'SINGLE', 'D', '流水线技术可以提高系统的吞吐率，但不能减少单条指令的执行时间', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 2, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (12, '关于RISC和CISC的区别，说法错误的是', 'SINGLE', 'A', 'RISC的指令数量通常比CISC少，而不是更多', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 2, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (13, '下列进程调度算法中，不会导致饥饿现象的是', 'SINGLE', 'A', '先来先服务(FCFS)调度算法按照进程到达的先后顺序进行调度，不会产生饥饿现象', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 3, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (14, '关于死锁的说法，错误的是', 'SINGLE', 'C', '死锁的预防和避免是两种不同的处理策略，预防是破坏死锁的必要条件，避免是动态检测和预防死锁的发生', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 3, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (15, '以下关于TCP和UDP的描述，错误的是', 'SINGLE', 'C', 'UDP也提供差错检测功能，但不提供差错恢复功能', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 4, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (16, '以下关于HTTP协议的描述，正确的是', 'MULTIPLE', 'A,C,D', 'HTTP是无状态协议，默认端口号是80，支持持久连接', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 4, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (1, '在一棵完全二叉树中，具有2个子女的结点数为15，则该二叉树的叶子结点数为()', 'SINGLE', 'B', '完全二叉树性质：若有n2个度为2的结点，则叶子结点数n0 = n2 + 1，所以叶子结点数为16', 1, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (2, '对于包含n个节点的二叉搜索树，查找、插入和删除操作的平均时间复杂度是()', 'SINGLE', 'C', '二叉搜索树的查找、插入和删除操作的平均时间复杂度都是O(logn)，最坏情况下为O(n)', 2, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (3, '下列关于进程和线程的说法中，错误的是()', 'SINGLE', 'D', '线程是CPU调度的基本单位，而进程是资源分配的基本单位。线程之间共享进程的资源。', 3, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (4, 'TCP协议使用滑动窗口机制实现流量控制，以下说法正确的是()', 'MULTIPLE', 'A,B,D', 'TCP的滑动窗口机制可以实现流量控制，防止发送方发送速率过快导致接收方无法处理。', 4, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (5, '以下关于指针的说法中，错误的是()', 'SINGLE', 'C', '指针是一种数据类型，用于存储内存地址。void指针可以指向任何类型的数据，但需要类型转换后才能解引用。', 5, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (6, '在C语言中，数组作为函数参数传递时，实际上传递的是数组的首地址。', 'JUDGE', 'TRUE', '在C语言中，数组作为参数传递时会退化为指针，传递的是数组的首地址，而不是整个数组的副本。', 5, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (7, '关于C语言中的const关键字，以下说法正确的有()', 'MULTIPLE', 'A,B,D', 'const可以修饰变量、指针和函数参数，用于表示其值不能被修改。const修饰的变量必须在声明时初始化。', 5, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (8, '在一个长度为n的顺序表中，删除所有值为x的元素的时间复杂度是', 'SINGLE', 'A', '需要遍历一遍数组，时间复杂度为O(n)', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (9, '对于包含n个结点的二叉树，其中序遍历的非递归算法中，栈的最大容量可能是', 'SINGLE', 'B', '最坏情况是一个只有左子树的二叉树，需要将所有节点入栈，空间复杂度为O(n)', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (10, '在散列表中，处理冲突的方法不包括', 'SINGLE', 'D', '树形平衡不是散列表处理冲突的方法，常见的方法有开放定址法和链地址法', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (11, '以下关于流水线的描述，错误的是', 'SINGLE', 'D', '流水线技术可以提高系统的吞吐率，但不能减少单条指令的执行时间', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (12, '关于RISC和CISC的区别，说法错误的是', 'SINGLE', 'A', 'RISC的指令数量通常比CISC少，而不是更多', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (13, '下列进程调度算法中，不会导致饥饿现象的是', 'SINGLE', 'A', '先来先服务(FCFS)调度算法按照进程到达的先后顺序进行调度，不会产生饥饿现象', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 3, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (14, '关于死锁的说法，错误的是', 'SINGLE', 'C', '死锁的预防和避免是两种不同的处理策略，预防是破坏死锁的必要条件，避免是动态检测和预防死锁的发生', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 3, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (15, '以下关于TCP和UDP的描述，错误的是', 'SINGLE', 'C', 'UDP也提供差错检测功能，但不提供差错恢复功能', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 4, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (16, '以下关于HTTP协议的描述，正确的是', 'MULTIPLE', 'A,C,D', 'HTTP是无状态协议，默认端口号是80，支持持久连接', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 4, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for user_answers
@@ -294,6 +318,7 @@ CREATE TABLE `user_answers`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '答题时间',
   `created_at` datetime(6) NULL DEFAULT NULL,
   `practice_mode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE,
   INDEX `idx_question_id`(`question_id` ASC) USING BTREE,
@@ -301,13 +326,74 @@ CREATE TABLE `user_answers`  (
   INDEX `idx_user_question`(`user_id` ASC, `question_id` ASC) USING BTREE,
   INDEX `idx_bank_id`(`bank_id` ASC) USING BTREE,
   CONSTRAINT `fk_answers_bank` FOREIGN KEY (`bank_id`) REFERENCES `question_banks` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_user_answers_question` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_answers_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_answers_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_answers
 -- ----------------------------
+INSERT INTO `user_answers` VALUES (1, 28, 1, 1, 'C', 0, 'sequence', 2, 0, NULL, '2024-11-22 21:35:06', '2024-11-22 13:35:06.675621', NULL, NULL);
+INSERT INTO `user_answers` VALUES (2, 28, 8, 1, 'C', 0, 'sequence', 8, 0, NULL, '2024-11-22 21:35:12', '2024-11-22 13:35:12.923951', NULL, NULL);
+INSERT INTO `user_answers` VALUES (3, 28, 9, 1, 'D', 0, 'sequence', 10, 0, NULL, '2024-11-22 21:35:15', '2024-11-22 13:35:15.115041', NULL, NULL);
+INSERT INTO `user_answers` VALUES (4, 28, 10, 1, 'C', 0, 'sequence', 14, 0, NULL, '2024-11-22 21:35:19', '2024-11-22 13:35:19.232116', NULL, NULL);
+INSERT INTO `user_answers` VALUES (5, 28, 11, 1, 'B', 0, 'sequence', 16, 0, NULL, '2024-11-22 21:35:21', '2024-11-22 13:35:21.225448', NULL, NULL);
+INSERT INTO `user_answers` VALUES (6, 28, 12, 1, 'C', 0, 'sequence', 18, 0, NULL, '2024-11-22 21:35:22', '2024-11-22 13:35:22.727408', NULL, NULL);
+INSERT INTO `user_answers` VALUES (7, 28, 13, 1, 'B', 0, 'sequence', 19, 0, NULL, '2024-11-22 21:35:24', '2024-11-22 13:35:24.397292', NULL, NULL);
+INSERT INTO `user_answers` VALUES (8, 28, 14, 1, 'A', 0, 'sequence', 21, 0, NULL, '2024-11-22 21:35:26', '2024-11-22 13:35:26.190280', NULL, NULL);
+INSERT INTO `user_answers` VALUES (9, 28, 15, 1, 'C', 1, 'sequence', 26, 0, NULL, '2024-11-22 21:35:30', '2024-11-22 13:35:30.678175', NULL, NULL);
+INSERT INTO `user_answers` VALUES (10, 28, 16, 1, 'A,C', 0, 'sequence', 29, 0, NULL, '2024-11-22 21:35:33', '2024-11-22 13:35:33.869103', NULL, NULL);
+INSERT INTO `user_answers` VALUES (11, 28, 2, 2, 'B', 0, 'sequence', 1, 0, NULL, '2024-11-22 21:35:58', '2024-11-22 13:35:58.743706', NULL, NULL);
+INSERT INTO `user_answers` VALUES (12, 28, 2, 2, 'B', 0, 'sequence', 1, 0, NULL, '2024-11-22 21:36:04', '2024-11-22 13:36:04.837328', NULL, NULL);
+INSERT INTO `user_answers` VALUES (13, 28, 1, 1, 'C', 0, 'sequence', 2, 0, NULL, '2024-11-22 21:38:27', '2024-11-22 13:38:27.195848', NULL, NULL);
+INSERT INTO `user_answers` VALUES (14, 28, 8, 1, 'C', 0, 'sequence', 4, 0, NULL, '2024-11-22 21:38:29', '2024-11-22 13:38:29.257946', NULL, NULL);
+INSERT INTO `user_answers` VALUES (15, 28, 9, 1, 'C', 0, 'sequence', 5, 0, NULL, '2024-11-22 21:38:30', '2024-11-22 13:38:30.512771', NULL, NULL);
+INSERT INTO `user_answers` VALUES (16, 28, 10, 1, 'C', 0, 'sequence', 6, 0, NULL, '2024-11-22 21:38:31', '2024-11-22 13:38:31.987907', NULL, NULL);
+INSERT INTO `user_answers` VALUES (17, 28, 11, 1, 'C', 0, 'sequence', 8, 0, NULL, '2024-11-22 21:38:33', '2024-11-22 13:38:33.656396', NULL, NULL);
+INSERT INTO `user_answers` VALUES (18, 28, 12, 1, 'B', 0, 'sequence', 10, 0, NULL, '2024-11-22 21:38:35', '2024-11-22 13:38:35.252235', NULL, NULL);
+INSERT INTO `user_answers` VALUES (19, 28, 13, 1, 'C', 0, 'sequence', 12, 0, NULL, '2024-11-22 21:38:37', '2024-11-22 13:38:37.960313', NULL, NULL);
+INSERT INTO `user_answers` VALUES (20, 28, 14, 1, 'C', 1, 'sequence', 15, 0, NULL, '2024-11-22 21:38:40', '2024-11-22 13:38:40.184189', NULL, NULL);
+INSERT INTO `user_answers` VALUES (21, 28, 15, 1, 'C', 1, 'sequence', 16, 0, NULL, '2024-11-22 21:38:41', '2024-11-22 13:38:41.479283', NULL, NULL);
+INSERT INTO `user_answers` VALUES (22, 28, 16, 1, 'C', 0, 'sequence', 18, 0, NULL, '2024-11-22 21:38:43', '2024-11-22 13:38:43.507180', NULL, NULL);
+INSERT INTO `user_answers` VALUES (23, 28, 2, 2, 'B', 0, 'sequence', 1, 0, NULL, '2024-11-22 21:40:22', '2024-11-22 13:40:22.593314', NULL, NULL);
+INSERT INTO `user_answers` VALUES (24, 28, 2, 2, 'A', 0, 'sequence', 1, 0, NULL, '2024-11-22 21:40:39', '2024-11-22 13:40:39.744489', NULL, NULL);
+INSERT INTO `user_answers` VALUES (25, 28, 1, 1, 'D', 0, 'sequence', 2, 0, NULL, '2024-11-22 21:42:11', '2024-11-22 13:42:11.045889', NULL, NULL);
+INSERT INTO `user_answers` VALUES (26, 28, 2, 2, 'D', 0, 'sequence', 2, 0, NULL, '2024-11-22 21:42:20', '2024-11-22 13:42:20.061394', NULL, NULL);
+INSERT INTO `user_answers` VALUES (27, 28, 1, 1, 'A', 0, 'sequence', 12, 0, NULL, '2024-11-22 21:45:03', '2024-11-22 13:45:03.089829', NULL, NULL);
+INSERT INTO `user_answers` VALUES (28, 28, 8, 1, 'B', 0, 'sequence', 16, 0, NULL, '2024-11-22 21:45:07', '2024-11-22 13:45:07.194907', NULL, NULL);
+INSERT INTO `user_answers` VALUES (29, 28, 9, 1, 'B', 1, 'sequence', 18, 0, NULL, '2024-11-22 21:45:09', '2024-11-22 13:45:09.722780', NULL, NULL);
+INSERT INTO `user_answers` VALUES (30, 29, 12, 1, 'D', 0, 'sequence', 14, 0, NULL, '2024-11-22 21:47:01', '2024-11-22 13:47:01.449165', NULL, NULL);
+INSERT INTO `user_answers` VALUES (31, 29, 11, 1, 'B', 0, 'sequence', 16, 0, NULL, '2024-11-22 21:47:03', '2024-11-22 13:47:03.338199', NULL, NULL);
+INSERT INTO `user_answers` VALUES (32, 29, 10, 1, 'B', 0, 'sequence', 18, 0, NULL, '2024-11-22 21:47:05', '2024-11-22 13:47:05.125655', NULL, NULL);
+INSERT INTO `user_answers` VALUES (33, 29, 9, 1, 'C', 0, 'sequence', 19, 0, NULL, '2024-11-22 21:47:06', '2024-11-22 13:47:06.150902', NULL, NULL);
+INSERT INTO `user_answers` VALUES (34, 29, 8, 1, 'C', 0, 'sequence', 20, 0, NULL, '2024-11-22 21:47:07', '2024-11-22 13:47:07.082573', NULL, NULL);
+INSERT INTO `user_answers` VALUES (35, 29, 1, 1, 'B', 1, 'sequence', 21, 0, NULL, '2024-11-22 21:47:08', '2024-11-22 13:47:08.572521', NULL, NULL);
+INSERT INTO `user_answers` VALUES (36, 29, 13, 1, 'C', 0, 'sequence', 26, 0, NULL, '2024-11-22 21:47:12', '2024-11-22 13:47:12.923496', NULL, NULL);
+INSERT INTO `user_answers` VALUES (37, 29, 14, 1, 'B', 0, 'sequence', 28, 0, NULL, '2024-11-22 21:47:15', '2024-11-22 13:47:15.470325', NULL, NULL);
+INSERT INTO `user_answers` VALUES (38, 29, 15, 1, 'B', 0, 'sequence', 30, 0, NULL, '2024-11-22 21:47:17', '2024-11-22 13:47:17.470110', NULL, NULL);
+INSERT INTO `user_answers` VALUES (39, 29, 16, 1, 'B', 0, 'sequence', 33, 0, NULL, '2024-11-22 21:47:19', '2024-11-22 13:47:19.870850', NULL, NULL);
+INSERT INTO `user_answers` VALUES (40, 29, 1, 1, 'B', 1, 'sequence', 2, 0, NULL, '2024-11-22 21:48:18', '2024-11-22 13:48:18.718423', NULL, NULL);
+INSERT INTO `user_answers` VALUES (41, 29, 8, 1, 'B', 0, 'sequence', 4, 0, NULL, '2024-11-22 21:48:20', '2024-11-22 13:48:20.339503', NULL, NULL);
+INSERT INTO `user_answers` VALUES (42, 29, 9, 1, 'B', 1, 'sequence', 7, 0, NULL, '2024-11-22 21:48:23', '2024-11-22 13:48:23.082269', NULL, NULL);
+INSERT INTO `user_answers` VALUES (43, 29, 1, 1, 'A', 0, 'sequence', 4, 0, NULL, '2024-11-22 21:49:30', '2024-11-22 13:49:30.400477', NULL, NULL);
+INSERT INTO `user_answers` VALUES (44, 29, 8, 1, 'B', 0, 'sequence', 7, 0, NULL, '2024-11-22 21:49:33', '2024-11-22 13:49:33.857961', NULL, NULL);
+INSERT INTO `user_answers` VALUES (45, 29, 9, 1, 'B', 1, 'sequence', 13, 0, NULL, '2024-11-22 21:49:39', '2024-11-22 13:49:39.612223', NULL, NULL);
+INSERT INTO `user_answers` VALUES (46, 29, 10, 1, 'C', 0, 'sequence', 20, 0, NULL, '2024-11-22 21:49:46', '2024-11-22 13:49:46.883627', NULL, NULL);
+INSERT INTO `user_answers` VALUES (47, 29, 9, 1, 'B', 1, 'sequence', 9, 0, NULL, '2024-11-22 21:50:54', '2024-11-22 13:50:54.750489', NULL, NULL);
+INSERT INTO `user_answers` VALUES (48, 29, 10, 1, 'C', 0, 'sequence', 11, 0, NULL, '2024-11-22 21:50:56', '2024-11-22 13:50:56.758327', NULL, NULL);
+INSERT INTO `user_answers` VALUES (49, 29, 12, 1, 'C', 0, 'sequence', 16, 0, NULL, '2024-11-22 21:51:01', '2024-11-22 13:51:01.763272', NULL, NULL);
+INSERT INTO `user_answers` VALUES (50, 29, 13, 1, 'D', 0, 'sequence', 17, 0, NULL, '2024-11-22 21:51:03', '2024-11-22 13:51:03.582097', NULL, NULL);
+INSERT INTO `user_answers` VALUES (51, 29, 14, 1, 'B', 0, 'sequence', 21, 0, NULL, '2024-11-22 21:51:07', '2024-11-22 13:51:07.052088', NULL, NULL);
+INSERT INTO `user_answers` VALUES (52, 29, 15, 1, 'B', 0, 'sequence', 23, 0, NULL, '2024-11-22 21:51:09', '2024-11-22 13:51:09.278279', NULL, NULL);
+INSERT INTO `user_answers` VALUES (53, 29, 16, 1, 'C', 0, 'sequence', 25, 0, NULL, '2024-11-22 21:51:11', '2024-11-22 13:51:11.541937', NULL, NULL);
+INSERT INTO `user_answers` VALUES (54, 29, 1, 1, 'A', 0, 'sequence', 1, 0, NULL, '2024-11-22 21:51:25', '2024-11-22 13:51:25.662184', NULL, NULL);
+INSERT INTO `user_answers` VALUES (55, 29, 8, 1, 'B', 0, 'sequence', 4, 0, NULL, '2024-11-22 21:51:27', '2024-11-22 13:51:27.971447', NULL, NULL);
+INSERT INTO `user_answers` VALUES (56, 29, 9, 1, 'C', 0, 'sequence', 6, 0, NULL, '2024-11-22 21:51:29', '2024-11-22 13:51:29.805496', NULL, NULL);
+INSERT INTO `user_answers` VALUES (57, 29, 2, 2, 'D', 0, 'sequence', 2, 0, NULL, '2024-11-22 21:51:34', '2024-11-22 13:51:34.744401', NULL, NULL);
+INSERT INTO `user_answers` VALUES (58, 29, 2, 2, 'B', 0, 'sequence', 1, 0, NULL, '2024-11-22 21:54:15', '2024-11-22 13:54:15.777514', NULL, NULL);
+INSERT INTO `user_answers` VALUES (59, 29, 1, 1, 'A', 0, 'sequence', 2, 0, NULL, '2024-11-22 21:58:25', '2024-11-22 13:58:25.384636', NULL, NULL);
+INSERT INTO `user_answers` VALUES (60, 29, 8, 1, 'D', 0, 'sequence', 15, 0, NULL, '2024-11-22 21:58:38', '2024-11-22 13:58:38.180834', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for user_collections
@@ -324,12 +410,34 @@ CREATE TABLE `user_collections`  (
   INDEX `idx_question_id`(`question_id` ASC) USING BTREE,
   CONSTRAINT `fk_collections_question` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_collections_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户题目收藏表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户题目收藏表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_collections
 -- ----------------------------
-INSERT INTO `user_collections` VALUES (2, 28, 1, '2024-11-18 14:00:22');
+INSERT INTO `user_collections` VALUES (28, 29, 1, '2024-11-22 13:58:36');
+INSERT INTO `user_collections` VALUES (29, 29, 8, '2024-11-22 13:58:39');
+
+-- ----------------------------
+-- Table structure for user_settings
+-- ----------------------------
+DROP TABLE IF EXISTS `user_settings`;
+CREATE TABLE `user_settings`  (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL,
+  `sound_enabled` tinyint(1) NULL DEFAULT 1,
+  `vibration_enabled` tinyint(1) NULL DEFAULT 1,
+  `default_question_count` int NULL DEFAULT 10,
+  `daily_reminder` tinyint(1) NULL DEFAULT 0,
+  `reminder_time` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '20:00',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_user_settings_user_id`(`user_id` ASC) USING BTREE,
+  CONSTRAINT `fk_user_settings_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_settings
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for users
@@ -346,40 +454,57 @@ CREATE TABLE `users`  (
   `updated_at` datetime(6) NULL DEFAULT NULL,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `open_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `UK_r43af9ap4edm43mmtq01oddj6`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (28, NULL, '2024-11-18 13:43:04.505061', NULL, '1', NULL, '$2a$10$6I6l.asntVr0RTrKSVrwP.Z7iS7A8GdVxygNIqa8fuHjdmKEMorHi', '2024-11-18 13:43:04.505061', '1', NULL);
+INSERT INTO `users` VALUES (28, NULL, '2024-11-18 13:43:04.505061', NULL, '1', NULL, '$2a$10$6I6l.asntVr0RTrKSVrwP.Z7iS7A8GdVxygNIqa8fuHjdmKEMorHi', '2024-11-18 13:43:04.505061', '1', NULL, NULL);
+INSERT INTO `users` VALUES (29, NULL, '2024-11-22 13:46:30.635575', NULL, '2', NULL, '$2a$10$O7JUZt0z1xk3fUsC2B1cauwjKut6EPHs/LuTy66FbNi2hEwdffaeq', '2024-11-22 13:46:30.635575', '2', NULL, NULL);
 
--- 用户设置表
-CREATE TABLE user_settings (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user_id BIGINT NOT NULL,
-    sound_enabled BOOLEAN DEFAULT TRUE,
-    vibration_enabled BOOLEAN DEFAULT TRUE,
-    default_question_count INT DEFAULT 10,
-    daily_reminder BOOLEAN DEFAULT FALSE,
-    reminder_time VARCHAR(5) DEFAULT '20:00',
-    CONSTRAINT fk_user_settings_user FOREIGN KEY (user_id) REFERENCES users(id)
-);
+-- ----------------------------
+-- Table structure for verify_codes
+-- ----------------------------
+DROP TABLE IF EXISTS `verify_codes`;
+CREATE TABLE `verify_codes`  (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `create_time` datetime(6) NULL DEFAULT NULL,
+  `expire_time` datetime(6) NULL DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `used` bit(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
--- 添加索引
-CREATE INDEX idx_user_settings_user_id ON user_settings(user_id);
+-- ----------------------------
+-- Records of verify_codes
+-- ----------------------------
 
--- 验证码表
-CREATE TABLE verify_codes (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    phone VARCHAR(20) NOT NULL,
-    code VARCHAR(6) NOT NULL,
-    expire_time DATETIME NOT NULL,
-    used BOOLEAN DEFAULT FALSE,
-    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_phone (phone),
-    INDEX idx_create_time (create_time)
-);
+-- ----------------------------
+-- Table structure for wrong_questions
+-- ----------------------------
+DROP TABLE IF EXISTS `wrong_questions`;
+CREATE TABLE `wrong_questions`  (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL,
+  `question_id` bigint NOT NULL,
+  `review_count` int NULL DEFAULT 0,
+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'pending',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_review_time` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `idx_question_id`(`question_id` ASC) USING BTREE,
+  INDEX `idx_status`(`status` ASC) USING BTREE,
+  CONSTRAINT `fk_wrong_question` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_wrong_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of wrong_questions
+-- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
