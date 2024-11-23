@@ -22,4 +22,7 @@ public interface QuestionService {
     UserAnswer submitAnswer(UserAnswer answer);
     List<Question> getWrongQuestions(Long userId, Pageable pageable);
     List<Question> getCollectedQuestions(Long userId, Pageable pageable);
+    
+    // 添加根据ID列表获取题目的方法
+    List<Question> getQuestionsByIds(List<Long> ids);
 } 

@@ -85,4 +85,9 @@ public class QuestionServiceImpl implements QuestionService {
                 throw new IllegalArgumentException("不支持的练习模式: " + mode);
         }
     }
+
+    @Override
+    public List<Question> getQuestionsByIds(List<Long> ids) {
+        return questionRepository.findAllById(ids);
+    }
 } 

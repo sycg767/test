@@ -1,6 +1,7 @@
 package com.example.question_bank.controller;
 
 import com.example.question_bank.entity.UserAnswer;
+import com.example.question_bank.service.QuestionService;
 import com.example.question_bank.service.UserAnswerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class UserAnswerController {
 
     @Autowired
     private UserAnswerService userAnswerService;
+
+    @Autowired
+    private QuestionService questionService;
 
     // 获取用户答题统计
     @GetMapping("/statistics")
@@ -39,7 +43,7 @@ public class UserAnswerController {
         @RequestParam(defaultValue = "10") int size
     ) {
         try {
-            Page<UserAnswer> wrongQuestions = userAnswerService.getWrongQuestions(
+            Page<Question> wrongQuestions = questionService.getWrongQuestions(
                 userId, 
                 PageRequest.of(page, size)
             );
