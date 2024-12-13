@@ -1,54 +1,85 @@
 <view class="container">
-  <!-- 轮播图 -->
-  <swiper class="banner" 
-          indicator-dots="{{true}}"
-          autoplay="{{true}}"
-          interval="{{3000}}"
-          duration="{{500}}"
-          circular="{{true}}"
-          indicator-active-color="#6c5ce7">
-    <swiper-item wx:for="{{banners}}" wx:key="id" bindtap="onBannerTap" data-url="{{item.linkUrl}}">
-      <image src="{{item.imageUrl}}" 
-             mode="aspectFill" 
-             class="banner-image"
-             bindtap="onBannerTap"
-             data-url="{{item.linkUrl}}"/>
-    </swiper-item>
-  </swiper>
+  <!-- 顶部区域 -->
+  <view class="header">
+    <!-- 搜索框 -->
+    <view class="search-box">
+      <navigator url="/pages/search/index" class="search-input">
+        <text class="iconfont icon-sousuo"></text>
+        <text class="placeholder">搜索题库、知识点</text>
+      </navigator>
+    </view>
 
-  <!-- 搜索框 -->
-  <view class="search-box">
-    <view class="search-input">
-      <text class="iconfont icon-sousuo"></text>
-      <text class="placeholder">搜索题库</text>
+    <!-- 选择题库按钮 -->
+    <view class="bank-select" bindtap="goToQuestionBank">
+      <view class="current-bank">
+        <text class="iconfont icon-wenjianjia-xuanzhong"></text>
+        <text class="bank-text">{{currentBank ? currentBank.name : '选择题库'}}</text>
+      </view>
+      <text class="iconfont icon-youjiantou"></text>
+    </view>
+    
+    <!-- 用户学习数据 -->
+    <view class="study-stats">
+      <view class="stat-item">
+        <text class="num">{{todayStudyTime}}</text>
+        <text class="label">今日学习(分钟)</text>
+      </view>
+      <view class="stat-item">
+        <text class="num">{{continuousDays}}</text>
+        <text class="label">连续打卡(天)</text>
+      </view>
+      <view class="stat-item">
+        <text class="num">{{totalQuestions}}</text>
+        <text class="label">已刷题目</text>
+      </view>
     </view>
   </view>
 
   <!-- 快速功能入口 -->
   <view class="quick-actions">
+    <view class="action-item" bindtap="onActionTap" data-type="random">
+      <view class="action-icon">
+        <text class="iconfont icon-shijuan"></text>
+      </view>
+      <text class="action-text">随机刷题</text>
+    </view>
     <view class="action-item" bindtap="onActionTap" data-type="wrong">
       <view class="action-icon">
         <text class="iconfont icon-cuotiben"></text>
       </view>
       <text class="action-text">错题本</text>
     </view>
-    <view class="action-item" bindtap="onActionTap" data-type="collect">
+    <view class="action-item" bindtap="onActionTap" data-type="favorite">
       <view class="action-icon">
         <text class="iconfont icon-shoucang"></text>
       </view>
-      <text class="action-text">收藏夹</text>
+      <text class="action-text">收藏题目</text>
     </view>
-    <view class="action-item" bindtap="onActionTap" data-type="rank">
+    <view class="action-item" bindtap="onActionTap" data-type="mock">
       <view class="action-icon">
-        <text class="iconfont icon-paihangbang"></text>
+        <text class="iconfont icon-shijuan"></text>
       </view>
-      <text class="action-text">排行榜</text>
+      <text class="action-text">模拟考试</text>
     </view>
-    <view class="action-item" bindtap="onActionTap" data-type="history">
-      <view class="action-icon">
-        <text class="iconfont icon-lishi"></text>
+  </view>
+
+  <!-- 学习计划 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="title">今日学习计划</text>
+      <view class="more" bindtap="onPlanMore">
+        <text>更多</text>
+        <text class="iconfont icon-youjiantou"></text>
       </view>
-      <text class="action-text">历史记录</text>
+    </view>
+    <view class="plan-list">
+      <view class="plan-item" wx:for="{{todayPlans}}" wx:key="id">
+        <view class="plan-info">
+          <text class="plan-name">{{item.name}}</text>
+          <text class="plan-progress">{{item.finished}}/{{item.total}}题</text>
+        </view>
+        <progress percent="{{item.percent}}" stroke-width="4" color="#6c5ce7"/>
+      </view>
     </view>
   </view>
 
@@ -56,15 +87,72 @@
   <view class="section">
     <view class="section-header">
       <text class="title">推荐题库</text>
-      <text class="more">更多</text>
+      <view class="more" bindtap="onMoreBanks">
+        <text>更多</text>
+        <text class="iconfont icon-youjiantou"></text>
+      </view>
+    </view>
+    <view class="bank-list">
+      <view class="bank-item" 
+        wx:for="{{recommendBanks}}" 
+        wx:key="id"
+        bindtap="onBankTap"
+        data-id="{{item.id}}"
+      >
+        <view class="bank-icon">
+          <text class="iconfont icon-shijuan"></text>
+        </view>
+        <view class="bank-info">
+          <text class="bank-name">{{item.name}}</text>
+          <view class="bank-stats">
+            <text class="count">{{item.questionCount}}题</text>
+            <text class="users">{{item.userCount}}人已��</text>
+          </view>
+        </view>
+      </view>
     </view>
   </view>
 
-  <!-- 热门题库 -->
+  <!-- 知识点导航 -->
   <view class="section">
     <view class="section-header">
-      <text class="title">热门题库</text>
-      <text class="more">更多</text>
+      <text class="title">知识点导航</text>
+    </view>
+    <view class="knowledge-list">
+      <view class="knowledge-item" 
+        wx:for="{{knowledgePoints}}" 
+        wx:key="id"
+        bindtap="onKnowledgeTap"
+        data-id="{{item.id}}"
+      >
+        <text class="knowledge-name">{{item.name}}</text>
+        <text class="knowledge-count">{{item.questionCount}}题</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 学习排行榜 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="title">学习排行</text>
+      <view class="more" bindtap="onMoreRank">
+        <text>更多</text>
+        <text class="iconfont icon-youjiantou"></text>
+      </view>
+    </view>
+    <view class="rank-list">
+      <view class="rank-item" 
+        wx:for="{{rankList}}" 
+        wx:key="id"
+        wx:if="{{index < 3}}"
+      >
+        <text class="rank-num {{index < 3 ? 'top' : ''}}">{{index + 1}}</text>
+        <view class="user-avatar">
+          <text class="iconfont icon-yonghu"></text>
+        </view>
+        <text class="user-name">{{item.nickname}}</text>
+        <text class="study-time">{{item.studyTime}}分钟</text>
+      </view>
     </view>
   </view>
 </view> 

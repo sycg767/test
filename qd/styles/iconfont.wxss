@@ -33,7 +33,7 @@
   content: "\e601";
 }
 
-/* 设置 */
+/* 设置图标 - 齿轮形状，用于设置功能 */
 .icon-shezhi:before {
   content: "\e781";
 }
@@ -103,18 +103,17 @@
   content: "\e639";
 }
 
-.icon-shezhi:before {
-  content: "\e781";
-}
-
+/* 编辑图标 - 笔形状，用于编辑功能 */
 .icon-bianji:before {
   content: "\e8ac";
 }
 
+/* 关于图标 - 圆形信息图标，用于关于页面 */
 .icon-guanyu:before {
   content: "\e60b";
 }
 
+/* 密码图标 - 锁形状，用于密码相关功能 */
 .icon-mima:before {
   content: "\e620";
 } 

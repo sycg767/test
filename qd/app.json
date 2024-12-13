@@ -17,7 +17,8 @@
     "pages/profile/edit",
     "pages/profile/password",
     "pages/about/index",
-    "pages/profile/phone"
+    "pages/profile/phone",
+    "pages/question-bank/select/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

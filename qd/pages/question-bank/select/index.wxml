@@ -1,0 +1,26 @@
+<view class="container">
+  <view class="header">
+    <text class="title">选择题库</text>
+  </view>
+
+  <view class="bank-list">
+    <view class="bank-item" 
+      wx:for="{{banks}}" 
+      wx:key="id"
+      bindtap="selectBank"
+      data-bank="{{item}}"
+    >
+      <view class="bank-icon">
+        <text class="iconfont icon-shijuan"></text>
+      </view>
+      <view class="bank-info">
+        <text class="bank-name">{{item.name}}</text>
+        <view class="bank-stats">
+          <text class="count">{{item.questionCount}}题</text>
+          <text class="users">{{item.userCount}}人已做</text>
+        </view>
+      </view>
+      <text class="iconfont icon-youjiantou arrow"></text>
+    </view>
+  </view>
+</view> 

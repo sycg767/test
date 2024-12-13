@@ -1,0 +1,74 @@
+@import "../../../styles/iconfont.wxss";
+
+.container {
+  min-height: 100vh;
+  background: #f5f6fa;
+}
+
+.header {
+  padding: 30rpx;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.bank-list {
+  padding: 0 20rpx;
+}
+
+.bank-item {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.bank-icon {
+  width: 100rpx;
+  height: 100rpx;
+  background: #f0effe;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+}
+
+.bank-icon .iconfont {
+  font-size: 48rpx;
+  color: #6c5ce7;
+}
+
+.bank-info {
+  flex: 1;
+}
+
+.bank-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.bank-stats {
+  display: flex;
+  gap: 20rpx;
+}
+
+.bank-stats text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.arrow {
+  font-size: 32rpx;
+  color: #999;
+} 

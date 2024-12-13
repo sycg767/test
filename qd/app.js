@@ -1,7 +1,8 @@
 App({
   globalData: {
     userInfo: null,
-    registerInfo: null
+    registerInfo: null,
+    currentBank: null
   },
 
   onLaunch() {
