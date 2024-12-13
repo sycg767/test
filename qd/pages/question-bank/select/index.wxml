@@ -3,7 +3,19 @@
     <text class="title">选择题库</text>
   </view>
 
-  <view class="bank-list">
+  <!-- 加载状态 -->
+  <view class="loading-wrapper" wx:if="{{loading}}">
+    <view class="loading">加载中...</view>
+  </view>
+
+  <!-- 错误提示 -->
+  <view class="error-wrapper" wx:elif="{{error}}">
+    <view class="error-message">{{error}}</view>
+    <button class="retry-btn" bindtap="loadBanks">重试</button>
+  </view>
+
+  <!-- 题库列表 -->
+  <view class="bank-list" wx:else>
     <view class="bank-item" 
       wx:for="{{banks}}" 
       wx:key="id"
@@ -22,5 +34,10 @@
       </view>
       <text class="iconfont icon-youjiantou arrow"></text>
     </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-wrapper" wx:if="{{!loading && !error && banks.length === 0}}">
+    <text>暂无题库</text>
   </view>
 </view> 

@@ -71,4 +71,42 @@
 .arrow {
   font-size: 32rpx;
   color: #999;
+}
+
+.loading-wrapper {
+  padding: 40rpx;
+  text-align: center;
+}
+
+.loading {
+  color: #999;
+  font-size: 28rpx;
+}
+
+.error-wrapper {
+  padding: 40rpx;
+  text-align: center;
+}
+
+.error-message {
+  color: #ff4d4f;
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+}
+
+.retry-btn {
+  width: 200rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  font-size: 28rpx;
+  color: #fff;
+  background: #6c5ce7;
+  border-radius: 32rpx;
+}
+
+.empty-wrapper {
+  padding: 80rpx 40rpx;
+  text-align: center;
+  color: #999;
+  font-size: 28rpx;
 } 

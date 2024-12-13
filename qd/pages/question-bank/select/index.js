@@ -1,6 +1,10 @@
+import { questionBankAPI } from '../../../services/api.js';
+
 Page({
   data: {
-    banks: []
+    banks: [],
+    loading: false,
+    error: null
   },
 
   onLoad() {
@@ -8,47 +12,40 @@ Page({
   },
 
   async loadBanks() {
+    this.setData({ loading: true, error: null });
+
     try {
-      // TODO: 调用API获取题库列表
-      const banks = [
-        {
-          id: 1,
-          name: '408综合真题',
-          questionCount: 1000,
-          userCount: 5000
-        },
-        {
-          id: 2,
-          name: '数据结构专项',
-          questionCount: 500,
-          userCount: 3000
-        },
-        {
-          id: 3,
-          name: '计算机网络',
-          questionCount: 800,
-          userCount: 4000
-        }
-      ]
-      this.setData({ banks })
+      const res = await questionBankAPI.getQuestionBanks();
+      this.setData({ 
+        banks: res.content || [],
+        loading: false
+      });
     } catch (error) {
-      console.error('获取题库列表失败:', error)
+      console.error('获取题库列表失败:', error);
+      this.setData({ 
+        error: error.message || '获取题库列表失败',
+        loading: false
+      });
+      wx.showToast({
+        title: '获取题库列表失败',
+        icon: 'none'
+      });
     }
   },
 
   // 选择题库
   selectBank(e) {
-    const { bank } = e.currentTarget.dataset
-    const app = getApp()
-    app.globalData.currentBank = bank
+    const { bank } = e.currentTarget.dataset;
+    const app = getApp();
+    app.globalData.currentBank = bank;
     
     wx.showToast({
       title: '已选择题库',
       icon: 'success'
-    })
+    });
     
     setTimeout(() => {
-      wx.navigateBack()
-    }, 1500)
+      wx.navigateBack();
+    }, 1500);
   }
-}) 
+}); 

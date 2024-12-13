@@ -32,7 +32,7 @@ export const questionBankAPI = {
   },
   
   // 获取题库列表
-  getQuestionBanks: (params) => {
+  getQuestionBanks: (params = {}) => {
     return request('/api/banks', {
       method: 'GET',
       data: params
