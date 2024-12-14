@@ -1,0 +1,29 @@
+// 全局样式重置
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+#app {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+// NProgress 样式自定义
+#nprogress .bar {
+  background: #409eff;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #409eff, 0 0 5px #409eff;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: #409eff;
+  border-left-color: #409eff;
+} 

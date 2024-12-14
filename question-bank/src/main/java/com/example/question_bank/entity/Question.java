@@ -24,30 +24,26 @@ public class Question {
     @Column(nullable = false)
     private String content;
     
-    @Column(nullable = false)
     private String type;
     
+    @Column(columnDefinition = "TEXT")
+    private String options;
+    
+    @Column(columnDefinition = "TEXT")
     private String answer;
     
+    @Column(columnDefinition = "TEXT")
     private String analysis;
+    
+    private Long bankId;
+    
+    private Long categoryId;
+    
+    private String difficulty;
     
     private Integer chapter;
     
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "bank_id")
-    @JsonIgnoreProperties({"questions", "category"})
-    private QuestionBank bank;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id")
-    @JsonIgnoreProperties({"questions", "banks"})
-    private Category category;
-    
-    private Long pointId;
-    
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
-    private List<QuestionOption> options;
+    private String status;
     
     @Column(name = "created_at")
     private LocalDateTime createdAt;
