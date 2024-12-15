@@ -1,5 +1,6 @@
 package com.example.question_bank.controller;
 
+import com.example.question_bank.entity.Question;
 import com.example.question_bank.entity.UserAnswer;
 import com.example.question_bank.service.QuestionService;
 import com.example.question_bank.service.UserAnswerService;

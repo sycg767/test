@@ -50,7 +50,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> getChapterQuestions(Long bankId, int count) {
-        return questionRepository.findByBankIdOrderByChapter(bankId)
+        return questionRepository.findByBankIdOrderByChapterAscIdAsc(bankId)
             .stream()
             .limit(count)
             .toList();
