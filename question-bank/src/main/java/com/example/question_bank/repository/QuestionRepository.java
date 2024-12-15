@@ -23,9 +23,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query(value = "SELECT * FROM questions WHERE bank_id = :bankId ORDER BY RAND() LIMIT :count", nativeQuery = true)
     List<Question> findRandomQuestions(@Param("bankId") Long bankId, @Param("count") int count);
     
-    // 按章节顺序查询
-    @Query("SELECT q FROM Question q WHERE q.bank.id = :bankId ORDER BY q.chapter ASC, q.id ASC")
-    List<Question> findByBankIdOrderByChapter(@Param("bankId") Long bankId);
+    // 按章节顺序查���
+    List<Question> findByBankIdOrderByChapterAscIdAsc(Long bankId);
     
     // 错题和收藏查询
     @Query("SELECT q FROM Question q JOIN UserAnswer ua ON q.id = ua.question.id " +
