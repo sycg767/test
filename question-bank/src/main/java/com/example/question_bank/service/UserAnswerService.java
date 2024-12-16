@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -48,7 +49,7 @@ public class UserAnswerService {
         return userAnswerRepository.save(userAnswer);
     }
     
-    public Page<Question> getWrongQuestions(Long userId, Pageable pageable) {
+    public List<Question> getWrongQuestions(Long userId, Pageable pageable) {
         try {
             return userAnswerRepository.findWrongQuestions(userId, pageable);
         } catch (Exception e) {
@@ -68,7 +69,7 @@ public class UserAnswerService {
     }
     
     // 获取题库练习记录
-    public Page<UserAnswer> getBankRecords(Long userId, Long bankId, Pageable pageable) {
+    public List<UserAnswer> getBankRecords(Long userId, Long bankId, Pageable pageable) {
         return userAnswerRepository.findByUserIdAndBankId(userId, bankId, pageable);
     }
     
@@ -96,7 +97,7 @@ public class UserAnswerService {
     }
     
     // 获取需要复习的题目
-    public Page<UserAnswer> getReviewQuestions(Long userId, Pageable pageable) {
+    public List<UserAnswer> getReviewQuestions(Long userId, Pageable pageable) {
         LocalDateTime threshold = LocalDateTime.now().minusDays(7);
         return userAnswerRepository.findByUserIdAndLastReviewAtBefore(userId, threshold, pageable);
     }
@@ -158,7 +159,7 @@ public class UserAnswerService {
     public Map<String, Object> getWrongStatistics(Long userId) {
         Map<String, Object> stats = new HashMap<>();
         
-        // 获取错题总数
+        // 获取错题总���
         Long totalWrong = userAnswerRepository.countWrongAnswers(userId);
         
         // 获取已复习错题数

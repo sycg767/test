@@ -1,16 +1,17 @@
 package com.example.question_bank.service;
 
+import com.example.question_bank.entity.Question;
+import com.example.question_bank.entity.User;
 import com.example.question_bank.entity.UserAnswer;
 import com.example.question_bank.repository.UserAnswerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,6 +34,13 @@ class UserAnswerServiceTest {
     void submitAnswer_ShouldReturnSavedAnswer() {
         // Arrange
         UserAnswer answer = new UserAnswer();
+        User user = new User();
+        user.setId(1L);
+        Question question = new Question();
+        question.setId(1L);
+        answer.setUser(user);
+        answer.setQuestion(question);
+        
         when(userAnswerRepository.save(any(UserAnswer.class)))
             .thenReturn(answer);
 
@@ -48,20 +56,28 @@ class UserAnswerServiceTest {
 
         // Assert
         assertNotNull(result);
+        assertEquals(1L, result.getUser().getId());
+        assertEquals(1L, result.getQuestion().getId());
     }
 
     @Test
-    void getWrongQuestions_ShouldReturnPageOfWrongQuestions() {
+    void getWrongQuestions_ShouldReturnListOfWrongQuestions() {
         // Arrange
-        Page<UserAnswer> expectedPage = new PageImpl<>(Collections.emptyList());
-        when(userAnswerRepository.findByUserIdAndIsCorrect(any(Long.class), any(Boolean.class), any(PageRequest.class)))
-            .thenReturn(expectedPage);
+        List<Question> expectedQuestions = new ArrayList<>();
+        Question question = new Question();
+        question.setId(1L);
+        expectedQuestions.add(question);
+        
+        when(userAnswerRepository.findWrongQuestions(any(Long.class), any(PageRequest.class)))
+            .thenReturn(expectedQuestions);
 
         // Act
-        Page<UserAnswer> result = userAnswerService.getWrongQuestions(1L, PageRequest.of(0, 10));
+        List<Question> result = userAnswerService.getWrongQuestions(1L, PageRequest.of(0, 10));
 
         // Assert
         assertNotNull(result);
+        assertEquals(expectedQuestions, result);
+        assertEquals(1, result.size());
     }
 
     @Test

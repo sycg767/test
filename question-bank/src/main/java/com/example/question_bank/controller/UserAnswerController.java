@@ -4,6 +4,8 @@ import com.example.question_bank.entity.Question;
 import com.example.question_bank.entity.UserAnswer;
 import com.example.question_bank.service.QuestionService;
 import com.example.question_bank.service.UserAnswerService;
+import com.example.question_bank.exception.BusinessException;
+import com.example.question_bank.exception.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,9 +33,12 @@ public class UserAnswerController {
         try {
             Map<String, Long> stats = userAnswerService.getStatistics(userId);
             return ResponseEntity.ok(stats);
+        } catch (BusinessException e) {
+            log.error("获取用户答题统计失败", e);
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         } catch (Exception e) {
             log.error("获取用户答题统计失败", e);
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.internalServerError().body(new ErrorResponse("服务器内部错误"));
         }
     }
 
@@ -44,14 +50,17 @@ public class UserAnswerController {
         @RequestParam(defaultValue = "10") int size
     ) {
         try {
-            Page<Question> wrongQuestions = questionService.getWrongQuestions(
+            List<Question> wrongQuestions = questionService.getWrongQuestions(
                 userId, 
                 PageRequest.of(page, size)
             );
             return ResponseEntity.ok(wrongQuestions);
+        } catch (BusinessException e) {
+            log.error("获取错题列表失败", e);
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         } catch (Exception e) {
             log.error("获取错题列表失败", e);
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.internalServerError().body(new ErrorResponse("服务器内部错误"));
         }
     }
 
@@ -64,15 +73,18 @@ public class UserAnswerController {
         @RequestParam(defaultValue = "10") int size
     ) {
         try {
-            Page<UserAnswer> records = userAnswerService.getBankRecords(
+            List<UserAnswer> records = userAnswerService.getBankRecords(
                 userId,
                 bankId,
                 PageRequest.of(page, size)
             );
             return ResponseEntity.ok(records);
+        } catch (BusinessException e) {
+            log.error("获取题库练习记录失败", e);
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         } catch (Exception e) {
             log.error("获取题库练习记录失败", e);
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.internalServerError().body(new ErrorResponse("服务器内部错误"));
         }
     }
 
@@ -84,14 +96,17 @@ public class UserAnswerController {
         @RequestParam(defaultValue = "10") int size
     ) {
         try {
-            Page<UserAnswer> reviewQuestions = userAnswerService.getReviewQuestions(
+            List<UserAnswer> reviewQuestions = userAnswerService.getReviewQuestions(
                 userId,
                 PageRequest.of(page, size)
             );
             return ResponseEntity.ok(reviewQuestions);
+        } catch (BusinessException e) {
+            log.error("获取复习题目失败", e);
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         } catch (Exception e) {
             log.error("获取复习题目失败", e);
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.internalServerError().body(new ErrorResponse("服务器内部错误"));
         }
     }
 
@@ -101,9 +116,12 @@ public class UserAnswerController {
         try {
             UserAnswer answer = userAnswerService.updateReviewRecord(answerId);
             return ResponseEntity.ok(answer);
+        } catch (BusinessException e) {
+            log.error("更新复习记录失败", e);
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         } catch (Exception e) {
             log.error("更新复习记录失败", e);
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.internalServerError().body(new ErrorResponse("服务器内部错误"));
         }
     }
 } 

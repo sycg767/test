@@ -10,13 +10,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface UserAnswerRepository extends JpaRepository<UserAnswer, Long> {
     
     Page<UserAnswer> findByUserIdAndIsCorrect(Long userId, Boolean isCorrect, Pageable pageable);
     
-    Page<UserAnswer> findByUserIdAndBankId(Long userId, Long bankId, Pageable pageable);
+    List<UserAnswer> findByUserIdAndBankId(Long userId, Long bankId, Pageable pageable);
     
     @Query("SELECT COUNT(ua) FROM UserAnswer ua WHERE ua.user.id = :userId AND ua.isCorrect = true")
     Long countCorrectAnswers(@Param("userId") Long userId);
@@ -30,7 +31,7 @@ public interface UserAnswerRepository extends JpaRepository<UserAnswer, Long> {
     @Query("SELECT COUNT(ua) FROM UserAnswer ua WHERE ua.user.id = :userId AND ua.bankId = :bankId AND ua.isCorrect = true")
     Long countCorrectByUserIdAndBankId(@Param("userId") Long userId, @Param("bankId") Long bankId);
     
-    Page<UserAnswer> findByUserIdAndLastReviewAtBefore(Long userId, LocalDateTime threshold, Pageable pageable);
+    List<UserAnswer> findByUserIdAndLastReviewAtBefore(Long userId, LocalDateTime threshold, Pageable pageable);
     
     @Query("SELECT COUNT(ua) FROM UserAnswer ua WHERE ua.user.id = :userId AND ua.bankId = :bankId AND ua.createdAt >= :startTime")
     Long countTodayAnswers(@Param("userId") Long userId, @Param("bankId") Long bankId, @Param("startTime") LocalDateTime startTime);
@@ -65,5 +66,5 @@ public interface UserAnswerRepository extends JpaRepository<UserAnswer, Long> {
         JOIN UserAnswer ua ON q.id = ua.question.id 
         WHERE ua.user.id = :userId AND ua.isCorrect = false
     """)
-    Page<Question> findWrongQuestions(@Param("userId") Long userId, Pageable pageable);
+    List<Question> findWrongQuestions(@Param("userId") Long userId, Pageable pageable);
 } 

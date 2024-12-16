@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class UserCollectionService {
@@ -50,7 +51,7 @@ public class UserCollectionService {
     }
 
     // 获取收藏列表
-    public Page<UserCollection> getCollections(Long userId, Pageable pageable) {
+    public List<UserCollection> getCollections(Long userId, Pageable pageable) {
         return collectionRepository.findByUserId(userId, pageable);
     }
 } 

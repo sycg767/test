@@ -23,17 +23,17 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query(value = "SELECT * FROM questions WHERE bank_id = :bankId ORDER BY RAND() LIMIT :count", nativeQuery = true)
     List<Question> findRandomQuestions(@Param("bankId") Long bankId, @Param("count") int count);
     
-    // 按章节顺序查���
+    // 按章节顺序查询
     List<Question> findByBankIdOrderByChapterAscIdAsc(Long bankId);
     
     // 错题和收藏查询
     @Query("SELECT q FROM Question q JOIN UserAnswer ua ON q.id = ua.question.id " +
            "WHERE ua.user.id = :userId AND ua.isCorrect = false")
-    Page<Question> findWrongQuestions(@Param("userId") Long userId, Pageable pageable);
+    List<Question> findWrongQuestions(@Param("userId") Long userId, Pageable pageable);
     
     @Query("SELECT q FROM Question q JOIN UserCollection uc ON q.id = uc.question.id " +
            "WHERE uc.user.id = :userId")
-    Page<Question> findCollectedQuestions(@Param("userId") Long userId, Pageable pageable);
+    List<Question> findCollectedQuestions(@Param("userId") Long userId, Pageable pageable);
     
     @Query(value = "SELECT * FROM questions WHERE bank_id = :bankId ORDER BY id LIMIT :count", nativeQuery = true)
     List<Question> findByBankIdOrderById(@Param("bankId") Long bankId, @Param("count") Integer count);

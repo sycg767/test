@@ -2,13 +2,15 @@ package com.example.question_bank.controller;
 
 import com.example.question_bank.entity.UserCollection;
 import com.example.question_bank.service.UserCollectionService;
+import com.example.question_bank.exception.BusinessException;
+import com.example.question_bank.exception.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,9 +30,12 @@ public class UserCollectionController {
         try {
             boolean isCollected = collectionService.isCollected(userId, questionId);
             return ResponseEntity.ok(Map.of("collected", isCollected));
+        } catch (BusinessException e) {
+            log.error("检查收藏状态失败", e);
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         } catch (Exception e) {
             log.error("检查收藏状态失败", e);
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.internalServerError().body(new ErrorResponse("服务器内部错误"));
         }
     }
 
@@ -46,9 +51,12 @@ public class UserCollectionController {
                 "collected", isCollected,
                 "message", isCollected ? "收藏成功" : "取消收藏成功"
             ));
+        } catch (BusinessException e) {
+            log.error("切换收藏状态失败", e);
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         } catch (Exception e) {
             log.error("切换收藏状态失败", e);
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.internalServerError().body(new ErrorResponse("服务器内部错误"));
         }
     }
 
@@ -60,14 +68,17 @@ public class UserCollectionController {
         @RequestParam(defaultValue = "10") int size
     ) {
         try {
-            Page<UserCollection> collections = collectionService.getCollections(
+            List<UserCollection> collections = collectionService.getCollections(
                 userId,
                 PageRequest.of(page, size)
             );
             return ResponseEntity.ok(collections);
+        } catch (BusinessException e) {
+            log.error("获取收藏列表失败", e);
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         } catch (Exception e) {
             log.error("获取收藏列表失败", e);
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.internalServerError().body(new ErrorResponse("服务器内部错误"));
         }
     }
 } 

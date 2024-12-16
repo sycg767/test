@@ -64,12 +64,12 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> getWrongQuestions(Long userId, Pageable pageable) {
-        return questionRepository.findWrongQuestions(userId, pageable).getContent();
+        return questionRepository.findWrongQuestions(userId, pageable);
     }
 
     @Override
     public List<Question> getCollectedQuestions(Long userId, Pageable pageable) {
-        return questionRepository.findCollectedQuestions(userId, pageable).getContent();
+        return questionRepository.findCollectedQuestions(userId, pageable);
     }
 
     // 新增方法，用于处理练习题目获取
