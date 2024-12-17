@@ -2,6 +2,7 @@
 import { questionAPI } from '../../services/api.js'
 import { collectionAPI } from '../../services/api.js'
 import { checkLogin } from '../../utils/auth.js'
+import { studyRecordAPI } from '../../services/api.js'
 
 Page({
   data: {
@@ -216,15 +217,47 @@ Page({
   },
 
   // 完成练习
-  finishPractice() {
-    const seconds = this.data.seconds;
-    const correctCount = this.data.questions.filter(q => 
-      q.options.filter(opt => opt.selected).map(opt => opt.key).join(',') === q.answer
-    ).length;
+  async finishPractice() {
+    try {
+      const seconds = this.data.seconds;
+      const totalQuestions = this.data.questions.length;
+      const correctCount = this.data.questions.filter(q => q.isCorrect).length;
+      const correctRate = (correctCount / totalQuestions) * 100;
+      const userId = getApp().globalData.userInfo.id;
 
-    wx.redirectTo({
-      url: `/pages/practice/result?totalQuestions=${this.data.questions.length}&correctCount=${correctCount}&seconds=${seconds}&mode=${this.data.mode}&bankId=${this.data.bankId}`
-    });
+      const recordData = {
+        userId: userId,
+        bankId: this.data.bankId,
+        mode: this.data.mode,
+        totalQuestions: totalQuestions,
+        correctCount: correctCount,
+        spendTime: seconds,
+        correctRate: correctRate,
+        createTime: new Date().getTime()
+      };
+
+      console.log('Preparing to save study record:', recordData);
+
+      // 创建学习记录
+      const result = await studyRecordAPI.createStudyRecord(recordData);
+      console.log('Study record saved successfully:', result);
+
+      // 跳转到结果页面
+      wx.redirectTo({
+        url: `/pages/practice/result?totalQuestions=${totalQuestions}&correctCount=${correctCount}&seconds=${seconds}&mode=${this.data.mode}&bankId=${this.data.bankId}`
+      });
+    } catch (error) {
+      console.error('保存练习记录失败:', error);
+      console.error('错误详情:', {
+        error: error,
+        stack: error.stack,
+        data: this.data
+      });
+      wx.showToast({
+        title: '保存记录失败',
+        icon: 'none'
+      });
+    }
   },
 
   // 检查收藏状态

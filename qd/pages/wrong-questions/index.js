@@ -41,15 +41,23 @@ Page({
     try {
       this.setData({ loading: true });
       const userId = getApp().globalData.userInfo.id;
-      const response = await questionAPI.getWrongQuestions(userId, {
+      const questions = await questionAPI.getWrongQuestions(userId, {
         page: this.data.page - 1,
         size: 10
       });
 
+      if (!questions || questions.length === 0) {
+        this.setData({
+          hasMore: false,
+          loading: false
+        });
+        return;
+      }
+
       this.setData({
-        questions: [...this.data.questions, ...response.content],
+        questions: [...this.data.questions, ...questions],
         page: this.data.page + 1,
-        hasMore: !response.last,
+        hasMore: questions.length === 10,
         loading: false
       });
     } catch (error) {
@@ -58,19 +66,10 @@ Page({
     }
   },
 
-  // 查看错题详情
-  goToDetail(e) {
-    const { id } = e.currentTarget.dataset;
-    wx.navigateTo({
-      url: `/pages/practice/index?mode=review&questionId=${id}`
-    });
-  },
-
-  // 开始练习错题
   startPractice() {
     if (this.data.questions.length === 0) {
       wx.showToast({
-        title: '暂无错题',
+        title: '暂无错题可练习',
         icon: 'none'
       });
       return;
@@ -82,7 +81,10 @@ Page({
     });
   },
 
-  onReachBottom() {
-    this.loadQuestions();
+  goToDetail(e) {
+    const { id } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: `/pages/practice/index?mode=review&questionId=${id}`
+    });
   }
 });

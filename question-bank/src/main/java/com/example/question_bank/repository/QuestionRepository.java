@@ -23,7 +23,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query(value = "SELECT * FROM questions WHERE bank_id = :bankId ORDER BY RAND() LIMIT :count", nativeQuery = true)
     List<Question> findRandomQuestions(@Param("bankId") Long bankId, @Param("count") int count);
     
-    // 按章节顺序查询
+    // 按章节顺序查���
     List<Question> findByBankIdOrderByChapterAscIdAsc(Long bankId);
     
     // 错题和收藏查询
@@ -49,4 +49,13 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
         LIMIT :count
         """, nativeQuery = true)
     List<Question> findWrongQuestionsByBankId(@Param("bankId") Long bankId, @Param("count") Integer count);
+    
+    @Query("SELECT DISTINCT q FROM Question q LEFT JOIN FETCH q.options WHERE q.bankId = :bankId")
+    List<Question> findByBankIdWithOptions(@Param("bankId") Long bankId);
+    
+    @Query("SELECT DISTINCT q FROM Question q LEFT JOIN FETCH q.options " +
+           "WHERE q.id IN (SELECT ua.question.id FROM UserAnswer ua " +
+           "WHERE ua.user.id = :userId AND ua.isCorrect = false) " +
+           "ORDER BY q.id")
+    List<Question> findWrongQuestionsWithOptions(@Param("userId") Long userId, Pageable pageable);
 } 

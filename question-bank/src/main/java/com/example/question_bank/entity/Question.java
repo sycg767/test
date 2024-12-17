@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,17 +25,20 @@ public class Question {
     @Column(nullable = false)
     private String content;
     
+    @Column(nullable = false)
     private String type;
     
-    @Column(columnDefinition = "TEXT")
-    private String options;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<QuestionOption> options = new ArrayList<>();
     
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String answer;
     
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "text")
     private String analysis;
     
+    @Column(name = "bank_id")
     private Long bankId;
     
     private Long categoryId;
@@ -64,5 +68,14 @@ public class Question {
     
     public Question(Long id) {
         this.id = id;
+    }
+    
+    public void setOptions(List<QuestionOption> options) {
+        this.options = options;
+        if (options != null) {
+            for (QuestionOption option : options) {
+                option.setQuestion(this);
+            }
+        }
     }
 } 

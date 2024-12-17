@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -63,6 +64,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/stats")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<Map<String, Object>> getUserStats(@PathVariable Long userId) {
         try {
             Map<String, Object> stats = userAnswerService.getUserStats(userId);

@@ -1,2 +1,55 @@
-<!--pages/study-record/index.wxml-->
-<text>pages/study-record/index.wxml</text>
+<view class="container">
+  <!-- 统计信息 -->
+  <view class="statistics">
+    <view class="stat-item">
+      <text class="number">{{statistics.totalQuestions}}</text>
+      <text class="label">总答题数</text>
+    </view>
+    <view class="stat-item">
+      <text class="number">{{statistics.correctCount}}</text>
+      <text class="label">答对题数</text>
+    </view>
+    <view class="stat-item">
+      <text class="number">{{statistics.correctRate}}%</text>
+      <text class="label">正确率</text>
+    </view>
+    <view class="stat-item">
+      <text class="number">{{statistics.todayCount}}</text>
+      <text class="label">今日答题</text>
+    </view>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="records-list">
+    <view class="record-item" 
+      wx:for="{{records}}" 
+      wx:key="id"
+      bindtap="goToQuestionDetail"
+      data-question-id="{{item.question.id}}"
+    >
+      <view class="record-header">
+        <text class="question-type">{{item.question.type === 'SINGLE' ? '单选题' : item.question.type === 'MULTIPLE' ? '多选题' : '判断题'}}</text>
+        <text class="practice-time">{{item.createdAt}}</text>
+      </view>
+      
+      <view class="question-content">{{item.question.content}}</view>
+      
+      <view class="record-footer">
+        <view class="answer-info">
+          <text class="label">你的答案：</text>
+          <text class="answer {{item.isCorrect ? 'correct' : 'wrong'}}">{{item.answer}}</text>
+        </view>
+        <text class="status {{item.isCorrect ? 'correct' : 'wrong'}}">
+          {{item.isCorrect ? '答对了' : '答错了'}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">加载中...</view>
+  <view class="no-more" wx:if="{{!hasMore && records.length > 0}}">没有更多了</view>
+  <view class="empty" wx:if="{{!loading && records.length === 0}}">
+    <text>暂无做题记录</text>
+  </view>
+</view> 

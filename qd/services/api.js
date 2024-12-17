@@ -2,10 +2,20 @@ const BASE_URL = 'http://localhost:8080';
 
 // 封装请求方法
 const request = (url, options = {}) => {
+  // 确保url是字符串
+  if (typeof url !== 'string') {
+    console.error('Invalid URL:', url);
+    return Promise.reject(new Error('Invalid URL'));
+  }
+
+  const requestUrl = `${BASE_URL}${url}`;
+  console.log('Request URL:', requestUrl); // 添加日志
+  
   return new Promise((resolve, reject) => {
     wx.request({
-      url: `${BASE_URL}${url}`,
-      ...options,
+      url: requestUrl,
+      method: options.method || 'GET',
+      data: options.data,
       header: {
         'Content-Type': 'application/json',
         ...options.header
@@ -18,6 +28,7 @@ const request = (url, options = {}) => {
         }
       },
       fail: (error) => {
+        console.error('Request failed:', error, 'URL:', requestUrl, 'Options:', options);
         reject(error);
       }
     });
@@ -116,10 +127,13 @@ export const questionAPI = {
 export const userAnswerAPI = {
   // 获取答题统计
   getStatistics: (userId) => {
-    return request('/user-answers/statistics', {
-      method: 'GET',
-      data: { userId }
-    });
+    return request(`/api/v1/study-records/stats?userId=${userId}`);
+  },
+  
+  // 获取题库练习记录
+  getBankRecords: (userId, bankId, params = {}) => {
+    const queryString = `userId=${userId}${bankId ? `&bankId=${bankId}` : ''}&page=${params.page || 0}&size=${params.size || 10}`;
+    return request(`/api/v1/study-records?${queryString}`);
   }
 };
 
@@ -196,6 +210,32 @@ export const settingsAPI = {
     return request('/api/v1/user/reminder', {
       method: 'PUT',
       data: reminderSettings
+    });
+  }
+};
+
+export const studyRecordAPI = {
+  // 创建学习记录
+  createStudyRecord: (data) => {
+    console.log('Creating study record with data:', data); // 添加日志
+    return request('/api/v1/study-records', {
+      method: 'POST',
+      data: data
+    });
+  },
+
+  // 获取学习记录
+  getStudyRecords: (userId, bankId, page = 0, size = 10) => {
+    const queryString = `userId=${userId}${bankId ? `&bankId=${bankId}` : ''}&page=${page}&size=${size}`;
+    return request(`/api/v1/study-records?${queryString}`, {
+      method: 'GET'
+    });
+  },
+
+  // 获取学习统计
+  getStudyStats: (userId) => {
+    return request(`/api/v1/study-records/stats?userId=${userId}`, {
+      method: 'GET'
     });
   }
 }; 

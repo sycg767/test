@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/v1/collections")
@@ -72,7 +73,16 @@ public class UserCollectionController {
                 userId,
                 PageRequest.of(page, size)
             );
-            return ResponseEntity.ok(collections);
+            
+            // Create a paginated response
+            Map<String, Object> response = new HashMap<>();
+            response.put("content", collections);
+            response.put("last", collections.size() < size);
+            response.put("totalElements", collections.size());
+            response.put("number", page);
+            response.put("size", size);
+            
+            return ResponseEntity.ok(response);
         } catch (BusinessException e) {
             log.error("获取收藏列表失败", e);
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));

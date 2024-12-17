@@ -24,7 +24,6 @@
   <view class="loading" wx:if="{{loading}}">加载中...</view>
   <view class="no-more" wx:if="{{!hasMore && collections.length > 0}}">没有更多了</view>
   <view class="empty" wx:if="{{!loading && collections.length === 0}}">
-    <image src="/assets/images/empty.png" mode="aspectFit"></image>
     <text>暂无收藏题目</text>
   </view>
 </view>

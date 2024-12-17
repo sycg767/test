@@ -23,6 +23,6 @@ public interface QuestionService {
     List<Question> getWrongQuestions(Long userId, Pageable pageable);
     List<Question> getCollectedQuestions(Long userId, Pageable pageable);
     
-    // 添加根据ID列表获取题目的方法
+    // 根据ID列表获取题目
     List<Question> getQuestionsByIds(List<Long> ids);
 } 

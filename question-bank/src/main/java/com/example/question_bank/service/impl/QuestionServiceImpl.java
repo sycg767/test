@@ -6,7 +6,6 @@ import com.example.question_bank.repository.QuestionRepository;
 import com.example.question_bank.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -37,15 +36,12 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> getSequentialQuestions(Long bankId, int count) {
-        return questionRepository.findByBankIdOrderById(bankId)
-            .stream()
-            .limit(count)
-            .toList();
+        return questionRepository.findByBankIdOrderById(bankId, count);
     }
 
     @Override
     public List<Question> getRandomQuestions(Long bankId, int count) {
-        return questionRepository.findRandomQuestions(bankId, count);
+        return questionRepository.findRandomQuestionsByBankId(bankId, count);
     }
 
     @Override
@@ -57,22 +53,6 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public UserAnswer submitAnswer(UserAnswer answer) {
-        // 这里应该调用 UserAnswerService 来处理答案提交
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
-
-    @Override
-    public List<Question> getWrongQuestions(Long userId, Pageable pageable) {
-        return questionRepository.findWrongQuestions(userId, pageable);
-    }
-
-    @Override
-    public List<Question> getCollectedQuestions(Long userId, Pageable pageable) {
-        return questionRepository.findCollectedQuestions(userId, pageable);
-    }
-
-    // 新增方法，用于处理练习题目获取
     public List<Question> getPracticeQuestions(Long bankId, String mode, Integer count) {
         switch (mode) {
             case "sequence":
@@ -84,6 +64,22 @@ public class QuestionServiceImpl implements QuestionService {
             default:
                 throw new IllegalArgumentException("不支持的练习模式: " + mode);
         }
+    }
+
+    @Override
+    public UserAnswer submitAnswer(UserAnswer answer) {
+        // 这里应该调用 UserAnswerService 来处理答案提交
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    public List<Question> getWrongQuestions(Long userId, Pageable pageable) {
+        return questionRepository.findWrongQuestionsWithOptions(userId, pageable);
+    }
+
+    @Override
+    public List<Question> getCollectedQuestions(Long userId, Pageable pageable) {
+        return questionRepository.findCollectedQuestions(userId, pageable);
     }
 
     @Override

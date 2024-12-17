@@ -1,66 +1,117 @@
-// pages/study-record/index.js
+import { userAnswerAPI } from '../../services/api.js';
+import { checkLogin } from '../../utils/auth.js';
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    records: [],
+    statistics: {
+      totalQuestions: 0,
+      correctCount: 0,
+      correctRate: 0,
+      todayCount: 0
+    },
+    loading: false,
+    page: 0,
+    size: 10,
+    hasMore: true,
+    currentBank: null
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  onLoad() {
+    if (!checkLogin()) {
+      wx.navigateBack();
+      return;
+    }
+    
+    const app = getApp();
+    this.setData({
+      currentBank: app.globalData.currentBank
+    }, () => {
+      this.loadStatistics();
+      this.loadRecords();
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  // 加载统计信息
+  async loadStatistics() {
+    try {
+      const userId = getApp().globalData.userInfo.id;
+      const stats = await userAnswerAPI.getStatistics(userId);
+      this.setData({
+        statistics: {
+          totalQuestions: stats.totalQuestions || 0,
+          correctCount: stats.correctCount || 0,
+          correctRate: ((stats.correctCount / stats.totalQuestions) * 100).toFixed(1) || 0,
+          todayCount: stats.todayCount || 0
+        }
+      });
+    } catch (error) {
+      console.error('加载统计信息失败:', error);
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
+  // 加载做题记录
+  async loadRecords() {
+    if (this.data.loading || !this.data.hasMore) return;
 
+    try {
+      this.setData({ loading: true });
+      const userId = getApp().globalData.userInfo.id;
+      const bankId = this.data.currentBank?.id;
+      
+      const response = await userAnswerAPI.getBankRecords(userId, bankId, {
+        page: this.data.page,
+        size: this.data.size
+      });
+
+      const records = response.content || [];
+      
+      if (!records || records.length === 0) {
+        this.setData({
+          hasMore: false,
+          loading: false
+        });
+        return;
+      }
+
+      this.setData({
+        records: [...this.data.records, ...records],
+        page: this.data.page + 1,
+        hasMore: !response.last,
+        loading: false
+      });
+    } catch (error) {
+      console.error('加载做题记录失败:', error);
+      this.setData({ loading: false });
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
+  // 查看题目详情
+  goToQuestionDetail(e) {
+    const { questionId } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: `/pages/question/detail?id=${questionId}`
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
+  // 下拉刷新
   onPullDownRefresh() {
-
+    this.setData({
+      records: [],
+      page: 0,
+      hasMore: true
+    }, () => {
+      Promise.all([
+        this.loadStatistics(),
+        this.loadRecords()
+      ]).then(() => {
+        wx.stopPullDownRefresh();
+      });
+    });
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
+  // 上拉加载更多
   onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+    this.loadRecords();
   }
-})
+}); 
