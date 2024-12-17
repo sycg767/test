@@ -1,5 +1,12 @@
 import request from '@/utils/request'
 
+export interface QuestionBankQuery {
+  page?: number
+  size?: number
+  categoryId?: number
+  keyword?: string
+}
+
 export interface QuestionBank {
   id: number
   name: string
@@ -8,54 +15,44 @@ export interface QuestionBank {
     id: number
     name: string
   }
+  cover: string
   questionCount: number
   userCount: number
+  status: number
   createdAt: string
   updatedAt: string
 }
 
-export interface QueryParams {
-  page: number
-  pageSize: number
-  keyword?: string
-  categoryId?: number
-}
-
-export function getQuestionBanks(params: QueryParams) {
+export function getQuestionBankList(params: QuestionBankQuery) {
   return request<{
     content: QuestionBank[]
-    total: number
+    totalElements: number
+    totalPages: number
   }>({
-    url: '/banks',
+    url: '/api/banks',
     method: 'get',
     params
   })
 }
 
-export function getQuestionBank(id: number) {
+export function getQuestionBankDetail(id: number) {
   return request<QuestionBank>({
-    url: `/banks/${id}`,
+    url: `/api/banks/${id}`,
     method: 'get'
   })
 }
 
-export interface CreateQuestionBankData {
-  name: string
-  categoryId: number
-  description?: string
-}
-
-export function createQuestionBank(data: CreateQuestionBankData) {
-  return request<QuestionBank>({
-    url: '/banks',
+export function createQuestionBank(data: Partial<QuestionBank>) {
+  return request({
+    url: '/api/banks',
     method: 'post',
     data
   })
 }
 
-export function updateQuestionBank(id: number, data: CreateQuestionBankData) {
-  return request<QuestionBank>({
-    url: `/banks/${id}`,
+export function updateQuestionBank(id: number, data: Partial<QuestionBank>) {
+  return request({
+    url: `/api/banks/${id}`,
     method: 'put',
     data
   })
@@ -63,7 +60,7 @@ export function updateQuestionBank(id: number, data: CreateQuestionBankData) {
 
 export function deleteQuestionBank(id: number) {
   return request({
-    url: `/banks/${id}`,
+    url: `/api/banks/${id}`,
     method: 'delete'
   })
 } 

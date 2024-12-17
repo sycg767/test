@@ -46,15 +46,13 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import type { FormInstance } from 'element-plus'
-import { useUserStore } from '@/stores/user'
+import { login } from '@/api/user'
+import type { LoginData } from '@/api/user'
 
 const router = useRouter()
-const route = useRoute()
-const userStore = useUserStore()
-
 const loginFormRef = ref<FormInstance>()
 const loading = ref(false)
 
@@ -77,14 +75,28 @@ const handleLogin = async () => {
   
   await loginFormRef.value.validate(async (valid) => {
     if (valid) {
-      loading.value = true
       try {
-        await userStore.login(loginForm.username, loginForm.password)
-        const redirect = route.query.redirect?.toString() || '/'
-        router.push(redirect)
+        loading.value = true
+        const { data } = await login({
+          username: loginForm.username,
+          password: loginForm.password
+        })
+        
+        // 保存token
+        localStorage.setItem('token', data.token)
+        // 保存用户信息
+        localStorage.setItem('userInfo', JSON.stringify(data.user))
+        
+        // 登录成功提示
         ElMessage.success('登录成功')
+        
+        // 延迟跳转，让用户看到成功提示
+        setTimeout(() => {
+          // 跳转到首页
+          router.push('/')
+        }, 500)
       } catch (error: any) {
-        ElMessage.error(error.message || '登录失败')
+        ElMessage.error(error.response?.data?.error || '登录失败')
       } finally {
         loading.value = false
       }

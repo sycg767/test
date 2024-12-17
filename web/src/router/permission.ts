@@ -1,29 +1,24 @@
 import router from './index'
-import { useUserStore } from '@/stores/user'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
-const whiteList = ['/login']
+NProgress.configure({ showSpinner: false })
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
+  const token = localStorage.getItem('token')
 
-  const userStore = useUserStore()
-  const hasToken = userStore.token
-
-  if (hasToken) {
-    if (to.path === '/login') {
-      next({ path: '/' })
-      NProgress.done()
+  if (to.path === '/login') {
+    if (token) {
+      next('/')
     } else {
       next()
     }
   } else {
-    if (whiteList.includes(to.path)) {
+    if (token) {
       next()
     } else {
-      next(`/login?redirect=${to.path}`)
-      NProgress.done()
+      next('/login')
     }
   }
 })

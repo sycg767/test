@@ -11,7 +11,7 @@
  Target Server Version : 80031
  File Encoding         : 65001
 
- Date: 14/12/2024 10:44:52
+ Date: 17/12/2024 12:32:18
 */
 
 SET NAMES utf8mb4;
@@ -23,25 +23,25 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `admin_users`;
 CREATE TABLE `admin_users`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户名',
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '密码',
-  `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '昵称',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '头像',
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '手机号',
-  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT 'ACTIVE' COMMENT '状态:ACTIVE-启用,DISABLED-禁用',
-  `roles` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '角色:ADMIN-超级管理员,OPERATOR-运营',
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户名',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '昵称',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '头像',
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '手机号',
+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'ACTIVE',
+  `roles` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '角色:ADMIN-超级管理员,OPERATOR-运营',
   `last_login_time` datetime NULL DEFAULT NULL COMMENT '最后登录时间',
   `created_at` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_username`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '管理员表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理员表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin_users
 -- ----------------------------
-INSERT INTO `admin_users` VALUES (1, 'admin', '$2a$10$6I6l.asntVr0RTrKSVrwP.Z7iS7A8GdVxygNIqa8fuHjdmKEMorHi', '超级管理员', NULL, NULL, NULL, 'ACTIVE', 'ADMIN', NULL, '2024-12-14 10:44:18', '2024-12-14 10:44:18');
+INSERT INTO `admin_users` VALUES (4, 'admin', '$2a$10$JvvMTvrWIV4qTc/plomZdu9h7DDhJmHll1YyF5V7zPnFtyYeMicQ.', '超级管理员', NULL, NULL, NULL, 'ACTIVE', 'ADMIN', '2024-12-17 04:30:32', '2024-12-17 04:26:53', '2024-12-17 04:30:32');
 
 -- ----------------------------
 -- Table structure for bank_categories
@@ -57,7 +57,7 @@ CREATE TABLE `bank_categories`  (
   `sort` int NULL DEFAULT NULL,
   `status` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '题库分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '题库分类表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of bank_categories
@@ -78,7 +78,7 @@ CREATE TABLE `categories`  (
   `parent_id` bigint NULL DEFAULT NULL,
   `sort_order` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of categories
@@ -98,7 +98,7 @@ CREATE TABLE `knowledge_points`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_bank_id`(`bank_id` ASC) USING BTREE,
   CONSTRAINT `knowledge_points_ibfk_1` FOREIGN KEY (`bank_id`) REFERENCES `question_banks` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of knowledge_points
@@ -128,7 +128,7 @@ CREATE TABLE `practice_progress`  (
   INDEX `idx_bank_id`(`bank_id` ASC) USING BTREE,
   CONSTRAINT `fk_progress_bank` FOREIGN KEY (`bank_id`) REFERENCES `question_banks` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_progress_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '练习进度表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '练习进度表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of practice_progress
@@ -155,7 +155,7 @@ CREATE TABLE `practice_records`  (
   `create_time` bigint NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_user_time`(`user_id` ASC, `create_time` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of practice_records
@@ -181,7 +181,7 @@ CREATE TABLE `question_banks`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `category_id`(`category_id` ASC) USING BTREE,
   CONSTRAINT `question_banks_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `bank_categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '题库表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '题库表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of question_banks
@@ -219,7 +219,7 @@ CREATE TABLE `question_collections`  (
   INDEX `idx_create_time`(`create_time` ASC) USING BTREE,
   CONSTRAINT `question_collections_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `question_collections_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of question_collections
@@ -238,7 +238,7 @@ CREATE TABLE `question_options`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_question_id`(`question_id` ASC) USING BTREE,
   CONSTRAINT `question_options_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of question_options
@@ -325,7 +325,8 @@ CREATE TABLE `questions`  (
   `category_id` bigint NULL DEFAULT NULL,
   `chapter` int NULL DEFAULT NULL,
   `sort_order` int NULL DEFAULT NULL,
-  `difficulty` int NULL DEFAULT NULL,
+  `difficulty` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_bank_id`(`bank_id` ASC) USING BTREE,
   INDEX `idx_type`(`type` ASC) USING BTREE,
@@ -333,27 +334,27 @@ CREATE TABLE `questions`  (
   CONSTRAINT `FK54pk8ubikyxblrwho5ub41l5m` FOREIGN KEY (`category_id`) REFERENCES `bank_categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKctl6tuf74n8cufkb3ulj6b3fc` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`bank_id`) REFERENCES `question_banks` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of questions
 -- ----------------------------
-INSERT INTO `questions` VALUES (1, '在一棵完全二叉树中，具有2个子女的结点数为15，则该二叉树的叶子结点数为()', 'SINGLE', 'B', '完全二叉树性质：若有n2个度为2的结点，则叶子结点数n0 = n2 + 1，所以叶子结点数为16', 1, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (2, '对于包含n个节点的二叉搜索树，查找、插入和删除操作的平均时间复杂度是()', 'SINGLE', 'C', '二叉搜索树的查找、插入和删除操作的平均时间复杂度都是O(logn)，最坏情况下为O(n)', 2, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (3, '下列关于进程和线程的说法中，错误的是()', 'SINGLE', 'D', '线程是CPU调度的基本单位，而进程是资源分配的基本单位。线程之间共享进程的资源。', 3, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (4, 'TCP协议使用滑动窗口机制实现流量控制，以下说法正确的是()', 'MULTIPLE', 'A,B,D', 'TCP的滑动窗口机制可以实现流量控制，防止发送方发送速率过快导致接收方无法处理。', 4, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (5, '以下关于指针的说法中，错误的是()', 'SINGLE', 'C', '指针是一种数据类型，用于存储内存地址。void指针可以指向任何类型的数据，但需要类型转换后才能解引用。', 5, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (6, '在C语言中，数组作为函数参数传递时，实际上传递的是数组的首地址。', 'JUDGE', 'TRUE', '在C语言中，数组作为参数传递时会退化为指针，传递的是数组的首地址，而不是整个数组的副本。', 5, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (7, '关于C语言中的const关键字，以下说法正确的有()', 'MULTIPLE', 'A,B,D', 'const可以修饰变量、指针和函数参数，用于表示其值不能被修改。const修饰的变量必须在声明时初始化。', 5, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (8, '在一个长度为n的顺序表中，删除所有值为x的元素的时间复杂度是', 'SINGLE', 'A', '需要遍历一遍数组，时间复杂度为O(n)', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (9, '对于包含n个结点的二叉树，其中序遍历的非递归算法中，栈的最大容量可能是', 'SINGLE', 'B', '最坏情况是一个只有左子树的二叉树，需要将所有节点入栈，空间复杂度为O(n)', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (10, '在散列表中，处理冲突的方法不包括', 'SINGLE', 'D', '树形平衡不是散列表处理冲突的方法，常见的方法有开放定址法和链地址法', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (11, '以下关于流水线的描述，错误的是', 'SINGLE', 'D', '流水线技术可以提高系统的吞吐率，但不能减少单条指令的执行时间', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (12, '关于RISC和CISC的区别，说法错误的是', 'SINGLE', 'A', 'RISC的指令数量通常比CISC少，而不是更多', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (13, '下列进程调度算法中，不会导致饥饿现象的是', 'SINGLE', 'A', '先来先服务(FCFS)调度算法按照进程到达的先后顺序进行调度，不会产生饥饿现象', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (14, '关于死锁的说法，错误的是', 'SINGLE', 'C', '死锁的预防和避免是两种不同的处理策略，预防是破坏死锁的必要条件，避免是动态检测和预防死锁的发生', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (15, '以下关于TCP和UDP的描述，错误的是', 'SINGLE', 'C', 'UDP也提供差错检测功能，但不提供差错恢复功能', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 4, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `questions` VALUES (16, '以下关于HTTP协议的描述，正确的是', 'MULTIPLE', 'A,C,D', 'HTTP是无状态协议，默认端口号是80，支持持久连接', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 4, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (1, '在一棵完全二叉树中，具有2个子女的结点数为15，则该二叉树的叶子结点数为()', 'SINGLE', 'B', '完全二叉树性质：若有n2个度为2的结点，则叶子结点数n0 = n2 + 1，所以叶子结点数为16', 1, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (2, '对于包含n个节点的二叉搜索树，查找、插入和删除操作的平均时间复杂度是()', 'SINGLE', 'C', '二叉搜索树的查找、插入和删除操作的平均时间复杂度都是O(logn)，最坏情况下为O(n)', 2, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (3, '下列关于进程和线程的说法中，错误的是()', 'SINGLE', 'D', '线程是CPU调度的基本单位，而进程是资源分配的基本单位。线程之间共享进程的资源。', 3, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (4, 'TCP协议使用滑动窗口机制实现流量控制，以下说法正确的是()', 'MULTIPLE', 'A,B,D', 'TCP的滑动窗口机制可以实现流量控制，防止发送方发送速率过快导致接收方无法处理。', 4, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (5, '以下关于指针的说法中，错误的是()', 'SINGLE', 'C', '指针是一种数据类型，用于存储内存地址。void指针可以指向任何类型的数据，但需要类型转换后才能解引用。', 5, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (6, '在C语言中，数组作为函数参数传递时，实际上传递的是数组的首地址。', 'JUDGE', 'TRUE', '在C语言中，数组作为参数传递时会退化为指针，传递的是数组的首地址，而不是整个数组的副本。', 5, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (7, '关于C语言中的const关键字，以下说法正确的有()', 'MULTIPLE', 'A,B,D', 'const可以修饰变量、指针和函数参数，用于表示其值不能被修改。const修饰的变量必须在声明时初始化。', 5, '2024-11-14 22:42:48', '2024-11-14 22:42:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (8, '在一个长度为n的顺序表中，删除所有值为x的元素的时间复杂度是', 'SINGLE', 'A', '需要遍历一遍数组，时间复杂度为O(n)', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (9, '对于包含n个结点的二叉树，其中序遍历的非递归算法中，栈的最大容量可能是', 'SINGLE', 'B', '最坏情况是一个只有左子树的二叉树，需要将所有节点入栈，空间复杂度为O(n)', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (10, '在散列表中，处理冲突的方法不包括', 'SINGLE', 'D', '树形平衡不是散列表处理冲突的方法，常见的方法有开放定址法和链地址法', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (11, '以下关于流水线的描述，错误的是', 'SINGLE', 'D', '流水线技术可以提高系统的吞吐率，但不能减少单条指令的执行时间', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (12, '关于RISC和CISC的区别，说法错误的是', 'SINGLE', 'A', 'RISC的指令数量通常比CISC少，而不是更多', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (13, '下列进程调度算法中，不会导致饥饿现象的是', 'SINGLE', 'A', '先来先服务(FCFS)调度算法按照进程到达的先后顺序进行调度，不会产生饥饿现象', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (14, '关于死锁的说法，错误的是', 'SINGLE', 'C', '死锁的预防和避免是两种不同的处理策略，预防是破坏死锁的必要条件，避免是动态检测和预防死锁的发生', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (15, '以下关于TCP和UDP的描述，错误的是', 'SINGLE', 'C', 'UDP也提供差错检测功能，但不提供差错恢复功能', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `questions` VALUES (16, '以下关于HTTP协议的描述，正确的是', 'MULTIPLE', 'A,C,D', 'HTTP是无状态协议，默认端口号是80，支持持久连接', 1, '2024-11-15 19:39:56', '2024-11-15 19:39:56', NULL, NULL, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for user_answers
@@ -384,7 +385,7 @@ CREATE TABLE `user_answers`  (
   CONSTRAINT `fk_user_answers_question` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_answers_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_answers_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_answers
@@ -508,7 +509,7 @@ CREATE TABLE `user_collections`  (
   INDEX `idx_question_id`(`question_id` ASC) USING BTREE,
   CONSTRAINT `fk_collections_question` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_collections_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户题目收藏表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户题目收藏表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_collections
@@ -531,7 +532,7 @@ CREATE TABLE `user_settings`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_user_settings_user_id`(`user_id` ASC) USING BTREE,
   CONSTRAINT `fk_user_settings_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_settings
@@ -555,7 +556,7 @@ CREATE TABLE `users`  (
   `open_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `UK_r43af9ap4edm43mmtq01oddj6`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
@@ -575,7 +576,7 @@ CREATE TABLE `verify_codes`  (
   `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `used` bit(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of verify_codes
@@ -599,7 +600,7 @@ CREATE TABLE `wrong_questions`  (
   INDEX `idx_status`(`status` ASC) USING BTREE,
   CONSTRAINT `fk_wrong_question` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_wrong_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of wrong_questions

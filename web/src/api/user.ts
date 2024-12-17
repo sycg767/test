@@ -1,21 +1,28 @@
 import request from '@/utils/request'
+import type { LoginResponse } from '@/types/api'
 
 export interface LoginData {
   username: string
   password: string
 }
 
-export interface UserInfo {
-  id: number
-  username: string
-  nickname: string
-  roles: string[]
+export interface ChangePasswordData {
+  oldPassword: string
+  newPassword: string
 }
 
 export function login(data: LoginData) {
-  return request({
+  return request<LoginResponse>({
     url: '/admin/login',
     method: 'post',
+    data
+  })
+}
+
+export function changePassword(data: ChangePasswordData) {
+  return request({
+    url: '/admin/password',
+    method: 'put',
     data
   })
 }

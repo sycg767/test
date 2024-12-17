@@ -20,8 +20,7 @@ public class AdminController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
-            Map<String, Object> result = adminService.login(request.getUsername(), request.getPassword());
-            return ResponseEntity.ok(result);
+            return ResponseEntity.ok(adminService.login(request.getUsername(), request.getPassword()));
         } catch (Exception e) {
             log.error("Admin login failed", e);
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
